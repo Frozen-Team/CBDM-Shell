@@ -1,0 +1,61 @@
+//MAIN
+@background: #95a5a6;
+
+//QMenuBar
+@menu_bar_font_color: #95a5a6;
+@menu_bar_color: #393d40;
+@menu_bar_item_border_color: #26282A;
+@menu_bar_item_hovered_color: #717f80;
+@menu_bar_separator_grad_from: #fefcea;
+@menu_bar_separator_grad_to: #f1da36;
+//Button
+@def_btn_color: #717f80; // 393d40
+@hovered_btn_color: #393d40; // 717f80
+@pressed_btn_color: #95a5a6;
+QMainWindow {
+    background: @background;
+    width: 10px;
+    height: 10px;
+    QPushButton {
+        border: none;
+        background-color: @def_btn_color;
+        &:hover {
+            background-color: @hovered_btn_color
+        }
+        &:pressed {
+            background-color: @pressed_btn_color;
+            border: 1px solid @hovered_btn_color;
+        }
+    }
+    QMenuBar {
+        .item () {
+            padding: 3px 20px;
+            background-color: @menu_bar_color;
+            &:selected {
+                border-top: 1px solid @menu_bar_item_border_color;
+                border-bottom: 1px solid @menu_bar_item_border_color;
+                background-color: @menu_bar_item_hovered_color;
+            }
+        }
+        color: @menu_bar_font_color;
+        background-color: @menu_bar_color;
+        &::item {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            .item();
+        }
+        QMenu {
+            color: @menu_bar_font_color;
+            background-color: @menu_bar_color;
+            &::item {
+                .item();
+            }
+            &::separator {
+                height: 2px;
+                background-color: linear-gradient(to top, @menu_bar_separator_grad_from, );
+                margin: 1px 5px 0 15px;
+            }
+        }
+    }
+}

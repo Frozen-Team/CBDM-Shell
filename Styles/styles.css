@@ -1,0 +1,94 @@
+QMainWindow {
+  background: #95a5a6;
+  width: 10px;
+  height: 10px;
+}
+@font-face {
+  font-family: defaultFont;
+  src: url(:/res/Resources/HelveticaNeueCyr-Black.otf);
+}
+QMainWindow QPushButton {
+  font-size: 15px;
+  font-family: defaultFont normal;
+  border: none;
+  background-color: #717f80;
+}
+QMainWindow QPushButton:hover {
+  background-color: #393d40;
+}
+QMainWindow QPushButton:pressed {
+  background-color: #95a5a6;
+  border: 1px solid #393d40;
+}
+QMainWindow QLineEdit,
+QMainWindow QComboBox {
+  font-size: 15px;
+  font-family: defaultFont normal;
+  border: 1px solid #393d40;
+  background-color: #bed2d3;
+}
+QMainWindow QComboBox QAbstractItemView {
+  font-size: 15px;
+  font-family: defaultFont normal;
+  border: 1px solid #393d40;
+  background-color: #bed2d3;
+  border: none;
+}
+QMainWindow QComboBox QAbstractItemView::item:selected {
+  height: 30px;
+  background: orange;
+  border: 1px;
+  border-color: white;
+  border-left-style: solid;
+  border-top-style: none;
+  border-bottom-style: none;
+  border-right-style: none;
+}
+QMainWindow QComboBox::down-arrow {
+  width: 20 px;
+}
+QMainWindow QComboBox::down-arrow:hover {
+  background-color: #393d40;
+}
+QMainWindow QComboBox::down-arrow:pressed {
+  background-color: #95a5a6;
+  border: 1px solid #393d40;
+}
+QMainWindow QMenuBar {
+  font-size: 15px;
+  font-family: defaultFont normal;
+  color: #95a5a6;
+  background-color: #393d40;
+}
+QMainWindow QMenuBar::item {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  padding: 3px 20px;
+  background-color: #393d40;
+}
+QMainWindow QMenuBar::item:selected {
+  border-top: 1px solid #26282a;
+  border-bottom: 1px solid #26282a;
+  background-color: #717f80;
+}
+QMainWindow QMenuBar QMenu {
+  font-size: 15px;
+  font-family: defaultFont normal;
+  color: #95a5a6;
+  background-color: #393d40;
+}
+QMainWindow QMenuBar QMenu::item {
+  padding: 3px 20px;
+  background-color: #393d40;
+}
+QMainWindow QMenuBar QMenu::item:selected {
+  border-top: 1px solid #26282a;
+  border-bottom: 1px solid #26282a;
+  background-color: #717f80;
+}
+QMainWindow QMenuBar QMenu::separator {
+  height: 2px;
+  background-color: linear-gradient(to top, #fefcea);
+  margin: 1px 5px 0 15px;
+}

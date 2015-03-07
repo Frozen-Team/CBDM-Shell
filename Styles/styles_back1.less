@@ -1,0 +1,64 @@
+// Colors:
+// 393d40
+@header: #393d40;
+@background: #95a5a6;
+@hoveredButton: #717f80;
+@separator1: #26282A; // Black
+@separator2: #414649; // White
+//QMenuBar
+@menu_bar_font_color: white;
+@menu_bar_color: #393d40;
+
+//Button
+@def_btn_color: #393d40;
+@hovered_btn_color: #717f80;
+@pressed_btn_color: #95a5a6;
+
+
+QMainWindow {
+    background: @background;
+    width: 10px;
+    height: 10px;
+    QPushButton {
+        border: none;
+        background-color: @def_btn_color;
+        &:hover {
+            background-color: @hovered_btn_color
+        }
+        &:pressed {
+            background-color: @pressed_btn_color;
+        }
+    }
+    QMenuBar {
+        .item () {
+            padding: 3px 20px;
+            background-color: @header;
+            &:selected {
+                border-top: 1px solid @separator1;
+                border-bottom: 1px solid @separator1;
+                background-color: @hoveredButton;
+            }
+        }
+        color: @menu_bar_font_color;
+        background-color: @menu_bar_color;
+        &::item {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            .item();
+        }
+        QMenu {
+            color: @background;
+            background-color: @header;
+            border: 1px solid @separator1;
+            &::item {
+                .item();
+            }
+            &::separator {
+                height: 2px;
+                background-color: linear-gradient(to top, #fefcea, #f1da36);
+                margin: 1px 5px 0 15px;
+            }
+        }
+    }
+}
