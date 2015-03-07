@@ -9,14 +9,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>971</width>
-    <height>577</height>
+    <width>841</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <family>Vrinda</family>
-    <pointsize>10</pointsize>
+    <family>ONRAMP</family>
+    <pointsize>17</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -263,23 +263,51 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="1">
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+      <item row="0" column="2">
+       <widget class="QPushButton" name="configureButton">
+        <property name="minimumSize">
          <size>
-          <width>20</width>
-          <height>10</height>
+          <width>10</width>
+          <height>31</height>
          </size>
         </property>
-       </spacer>
+        <property name="text">
+         <string>Configure</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Logs:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item row="3" column="0" colspan="3">
+       <widget class="QTextBrowser" name="textBrowser">
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOn</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
        <widget class="QPushButton" name="generateButton">
         <property name="enabled">
          <bool>false</bool>
@@ -300,31 +328,25 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="configureButton">
-        <property name="minimumSize">
-         <size>
-          <width>10</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Configure</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
+   <zorder></zorder>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="ManagerMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>971</width>
-     <height>24</height>
+     <width>841</width>
+     <height>45</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>45</height>
+    </size>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -341,7 +363,7 @@
     <addaction name="actionMinimize"/>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuProject">
+   <widget class="ManagerMenu" name="menuProject">
     <property name="title">
      <string>Project</string>
     </property>
@@ -356,6 +378,25 @@
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>2</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>2</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QStatusBar {
+height: 1px;
+}</string>
+   </property>
   </widget>
   <action name="actionNew_project">
    <property name="text">
@@ -439,6 +480,18 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ManagerMenuBar</class>
+   <extends>QMenuBar</extends>
+   <header>managermenubar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ManagerMenu</class>
+   <extends>QMenu</extends>
+   <header>managermenu.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

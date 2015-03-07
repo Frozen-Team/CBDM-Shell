@@ -1,94 +1,167 @@
 QMainWindow {
-  background: #95a5a6;
+  background: #2e2e2e;
+  border: 5px solid #636363;
   width: 10px;
   height: 10px;
 }
-@font-face {
-  font-family: defaultFont;
-  src: url(:/res/Resources/HelveticaNeueCyr-Black.otf);
-}
 QMainWindow QPushButton {
-  font-size: 15px;
-  font-family: defaultFont normal;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
   border: none;
-  background-color: #717f80;
+  background-color: #525252;
 }
 QMainWindow QPushButton:hover {
-  background-color: #393d40;
+  background-color: #3e3e3e;
 }
 QMainWindow QPushButton:pressed {
-  background-color: #95a5a6;
-  border: 1px solid #393d40;
+  background-color: #333333;
 }
 QMainWindow QLineEdit,
 QMainWindow QComboBox {
-  font-size: 15px;
-  font-family: defaultFont normal;
-  border: 1px solid #393d40;
-  background-color: #bed2d3;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
 }
-QMainWindow QComboBox QAbstractItemView {
-  font-size: 15px;
-  font-family: defaultFont normal;
-  border: 1px solid #393d40;
-  background-color: #bed2d3;
+QMainWindow QComboBox {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
   border: none;
 }
-QMainWindow QComboBox QAbstractItemView::item:selected {
-  height: 30px;
-  background: orange;
-  border: 1px;
-  border-color: white;
-  border-left-style: solid;
-  border-top-style: none;
-  border-bottom-style: none;
-  border-right-style: none;
+QMainWindow QComboBox::on {
+  background-color: #3a3a3a;
 }
 QMainWindow QComboBox::down-arrow {
-  width: 20 px;
+  background-color: #525252;
+  border: none;
+  height: 31px;
+  width: 17px;
 }
-QMainWindow QComboBox::down-arrow:hover {
-  background-color: #393d40;
+QMainWindow QComboBox::down-arrow::hover {
+  background-color: #3e3e3e;
 }
-QMainWindow QComboBox::down-arrow:pressed {
-  background-color: #95a5a6;
-  border: 1px solid #393d40;
+QMainWindow QComboBox::down-arrow::pressed {
+  background-color: #333333;
+}
+QMainWindow QComboBox::drop-down {
+  width: 17px;
+  border: none;
+}
+QMainWindow QComboBox QAbstractItemView {
+  margin-top: 5px;
+  border: 1px solid #26282a;
+  selection-background-color: #3e3e3e;
 }
 QMainWindow QMenuBar {
-  font-size: 15px;
-  font-family: defaultFont normal;
-  color: #95a5a6;
-  background-color: #393d40;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 5px solid #636363;
+  border-radius: 6px;
+  background-color: #636363;
+}
+QMainWindow QMenuBar:pressed {
+  background-color: #333333;
+  border: 1px solid #3e3e3e;
 }
 QMainWindow QMenuBar::item {
   margin: 0;
   padding: 0;
   border: 0;
+  margin-top: 10px;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
   padding: 3px 20px;
-  background-color: #393d40;
+  background-color: #636363;
 }
 QMainWindow QMenuBar::item:selected {
-  border-top: 1px solid #26282a;
-  border-bottom: 1px solid #26282a;
-  background-color: #717f80;
+  background-color: #3e3e3e;
+}
+QMainWindow QMenuBar::item:pressed {
+  background-color: #333333;
+  border: 1px solid #3e3e3e;
 }
 QMainWindow QMenuBar QMenu {
-  font-size: 15px;
-  font-family: defaultFont normal;
-  color: #95a5a6;
-  background-color: #393d40;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 1px solid #26282a;
+  background-color: #636363;
 }
 QMainWindow QMenuBar QMenu::item {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
   padding: 3px 20px;
-  background-color: #393d40;
+  background-color: #636363;
 }
 QMainWindow QMenuBar QMenu::item:selected {
-  border-top: 1px solid #26282a;
-  border-bottom: 1px solid #26282a;
-  background-color: #717f80;
+  background-color: #3e3e3e;
 }
 QMainWindow QMenuBar QMenu::separator {
   height: 2px;
-  background-color: linear-gradient(to top, #fefcea);
+  background-color: linear-gradient(to top, #fefcea, #f1da36);
   margin: 1px 5px 0 15px;
+}
+QMainWindow QListView {
+  outline: none;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+}
+QMainWindow QListView::item {
+  border-right: 1px solid #1f1f1f;
+  outline: none;
+}
+QMainWindow QListView::item:hover {
+  background-color: #2e2e2e;
+}
+QMainWindow QListView::item:focus {
+  border: none;
+  border-right: 1px solid #1f1f1f;
+  background-color: #636363;
+}
+QMainWindow QScrollBar {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  background-color: #2e2e2e;
+  background-image: none;
+  width: 15px;
+}
+QMainWindow QScrollBar::add-page {
+  background: #2e2e2e;
+}
+QMainWindow QScrollBar::sub-page {
+  background: #2e2e2e;
+}
+QMainWindow QScrollBar::handle {
+  background: #636363;
+}
+QMainWindow QScrollBar::selected {
+  background: red;
+}
+QMainWindow QLabel {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  background-color: #2e2e2e;
+}
+QMainWindow QTextBrowser {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
 }

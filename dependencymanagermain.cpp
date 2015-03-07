@@ -11,6 +11,11 @@
 
 #include <QFontDatabase>
 #include <QMessageBox>
+#include <QSpacerItem>
+#include <QToolButton>
+#include <QSizeGrip>
+
+#include <QStandardItemModel>
 
 
 
@@ -18,28 +23,84 @@
 
 #include <QFont>
 DependencyManagerMain::DependencyManagerMain(QWidget *parent) :
-    //QMainWindow(parent, Qt::FramelessWindowHint),  //<-- this will remove the title bar
+    QMainWindow(parent, Qt::FramelessWindowHint | Qt::Window), // Remove titlebar
     ui(new Ui::DependencyManagerMain)
 {
     ui->setupUi(this);
+
     setupStyles();
+
+    QMenuBar* windowBar = new QMenuBar(ui->menubar);
+    QAction* closeAction = new QAction("X", this);
+    //QMenu* maximizeAction = new QMenu("O", windowBar);
+
+    //windowBar->addMenu(maximizeAction);
+    windowBar->addAction(closeAction);
+
+    closeAction->setObjectName("X");
+    windowBar->setStyleSheet("::item {"
+                             "margin-top: 0px;"
+                             "background: #990000;"
+                             "color: white"
+                             "}"
+                             "QMenuBar::item:pressed {"
+                             "background: #FF0000;"
+                             "color: white"
+                             "}"
+                             "::item:selected {"
+                             "background: #CC0000;"
+                             "color: white}"
+                             );
+    ui->menubar->setCornerWidget(windowBar);
+
+////    menuWidget->setStyleSheet( "::item {"
+////                               "background: #FF0000;"
+////                               "color: white"
+////                               "}"
+////                                                            "QMenuBar::item:pressed {"
+////                                                            "background: #FF0000;"
+////                                                            "color: white"
+////                                                            "}"
+////                                                            "::item:selected {"
+////                                                            "background: #CC0000;"
+////                                                            "color: white}");
+
+//        // set the custom widget as the main window's menu widget
+//    setMenuWidget(menuWidget);
+
+
+    connect(closeAction, SIGNAL(triggered()), this, SLOT(close()));
+
+
+
+
+    QStandardItemModel* model = new QStandardItemModel(this);
+
+    ui->listView->setModel(model);
+
+    for (int i = 0; i < 50; ++i)
+    {
+        QStandardItem *item = new QStandardItem("Item   " + QString::number(i));
+
+        model->appendRow(item);
+    }
+
+
 
 //    ui->comboBox->addItem("Hello");
 //    ui->comboBox->addItem("Hel789789987 6");
 //    ui->comboBox->addItem("He");
 //    ui->comboBox->addItem(QIcon(":/res/Logo(white).png"), "235324636");
 
-//    ui->comboBox_2->addItem("x86");
-//    ui->comboBox_2->addItem("x64");
-
-//    ui->comboBox_2->setCurrentIndex(0);
+    ui->archComboBox->addItem("x86");
+    ui->archComboBox->addItem("x64");
+    ui->archComboBox->setCurrentIndex(0);
 
 
     int fontID(-1);
 
-    QFile res(":/res/Resources/HelveticaNeueCyr-Black.otf");
+    QFile res(":/res/Resources/ONRAMP.ttf");
         if (res.open(QIODevice::ReadOnly) == false) {
-            qDebug() << "Hernya";
             //if (fontWarningShown == false) {
             //    QMessageBox::warning(0, "Application", (QString)"Impossible d'ouvrir la police " + QChar(0x00AB) + " DejaVu Serif " + QChar(0x00BB) + ".");
             //    fontWarningShown = true;
@@ -51,15 +112,7 @@ DependencyManagerMain::DependencyManagerMain(QWidget *parent) :
             }
         }
 
-        //setFont(QFont("HelveticaNeueCyr", 13));
-
-//    //connect(this, SIGNAL(), this, SLOT(onHover(QAction*)));
-
-}
-
-void DependencyManagerMain::onHover(QAction* action)
-{
-    qDebug() << "Hello";
+        //setFont(QFont("ONRANP", 13));
 }
 
 

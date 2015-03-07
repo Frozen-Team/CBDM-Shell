@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/res">
         <file>C:/Users/Maxym/Desktop/Logo(white).png</file>
-        <file>Resources/HelveticaNeueCyr-Black.otf</file>
+        <file>Resources/ONRAMP.ttf</file>
     </qresource>
 </RCC>

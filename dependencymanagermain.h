@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include <QProcess>
+#include <QMenu>
 
 
 namespace Ui {
@@ -18,15 +19,15 @@ public:
     explicit DependencyManagerMain(QWidget *parent = 0);
     ~DependencyManagerMain();
 
+    QPoint getWindowPos() { return this->pos(); }
+    void setWindowPos(const QPoint& p) { move(p); }
+
 private slots:
     void on_pushButton_clicked();
 
     void on_actionRebuild_triggered();
 
     void on_actionExit_triggered();
-
-
-    void onHover(QAction *action);
 
     void on_pythonBrowse_clicked();
 

@@ -1,110 +1,172 @@
+//COLORS
+@black: #111111;
+@gray1: #2b2b2b;
+@gray2: #3a3a3a;
+@gray3: #494949;
+@gray4: #585858;
+@gray5: #676767;
 //MAIN
-@background: #95a5a6;
+@background: #2e2e2e;
 //QMenuBar  
-@menu_bar_font_color: #95a5a6;
-@menu_bar_color: #393d40;
+@menu_bar_font_color: #c8c8c8;
+@menu_bar_color: #636363;
 @menu_bar_item_border_color: #26282A;
-@menu_bar_item_hovered_color: #717f80;
+@menu_bar_item_hovered_color: #3e3e3e;
 @menu_bar_separator_grad_from: #fefcea;
 @menu_bar_separator_grad_to: #f1da36;
 //Button
-@def_btn_color: #717f80; // 393d40
-@hovered_btn_color: #393d40; // 717f80
-@pressed_btn_color: #95a5a6;
+@def_btn_color: #525252; // 393d40
+@hovered_btn_color: #3e3e3e; // 717f80
+@pressed_btn_color: #333333;
 //Inputs
 @input_text_color: #95a5a6;
-@input_background: #BED2D3;
-@input_border_color: #393d40;
+@input_background: #1f1f1f;
+@input_border_color: #1f1f1f;
+//
 QMainWindow {
     background: @background;
+    border: 5px solid @menu_bar_color;
     width: 10px;
     height: 10px;
-    @font-face {
-        font-family: defaultFont;
-        src: url(:/res/Resources/HelveticaNeueCyr-Black.otf);
-    }
     .default_font() {
-        font-size: 15px;
-        font-family: defaultFont normal;
+        font-size: 15pt;
+        font-family: "ONRAMP";
+        color: @menu_bar_font_color;
     }
     QPushButton {
         .default_font();
         border: none;
         background-color: @def_btn_color;
         &:hover {
-            background-color: @hovered_btn_color
+            background-color: @hovered_btn_color;
         }
         &:pressed {
             background-color: @pressed_btn_color;
-            border: 1px solid @hovered_btn_color;
         }
     }
     .default_input() {
         .default_font();
         border: 1px solid @input_border_color;
         background-color: @input_background;
+        selection-background-color: ltblue;
     }
     QLineEdit, QComboBox {
         .default_input();
     }
     QComboBox {
-        QAbstractItemView {
-            .default_input();
-            border: none;
-            &::item:selected {
-                height: 30px;
-                background: orange;
-                border: 1px;
-                border-color: white;
-                border-left-style: solid;
-                border-top-style: none;
-                border-bottom-style: none;
-                border-right-style: none;
-            }
+        .default_input();
+        border: none;
+        &::on {
+            background-color: @gray2;
         }
         &::down-arrow {
-            width: 20 px;
-            &:hover {
-                background-color: @hovered_btn_color
+            background-color: @def_btn_color;
+            border: none;
+            height: 31px;
+            width: 17px;
+            &::hover {
+                background-color: @hovered_btn_color;
             }
+            &::pressed {
+                background-color: @pressed_btn_color;
+            }
+        }
+        &::drop-down {
+            width: 17px;
+            border: none;
+        }
+        QAbstractItemView {
+            margin-top: 5px;
+            border: 1px solid @menu_bar_item_border_color;
+            selection-background-color: @hovered_btn_color;
+        }
+    }
+    QMenuBar {
+        .default_font();
+        .item () {
+            .default_font();
+            padding: 3px 20px;
+            background-color: @menu_bar_color;
+            &:selected {
+                //border-top: 1px solid @menu_bar_item_border_color;
+                //border-bottom: 1px solid @menu_bar_item_border_color;
+                background-color: @menu_bar_item_hovered_color;
+            }
+        }
+        border: 5px solid @menu_bar_color;
+        border-radius: 6px;
+        background-color: @menu_bar_color;
+        &:pressed {
+            background-color: @pressed_btn_color;
+            border: 1px solid @hovered_btn_color;
+        }
+        &::item {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            margin-top: 10px;
+            .item();
             &:pressed {
                 background-color: @pressed_btn_color;
                 border: 1px solid @hovered_btn_color;
             }
         }
-        &::drop-down {}
-    }
-    QMenuBar {
-        .default_font();
-        .item () {
-            padding: 3px 20px;
-            background-color: @menu_bar_color;
-            &:selected {
-                border-top: 1px solid @menu_bar_item_border_color;
-                border-bottom: 1px solid @menu_bar_item_border_color;
-                background-color: @menu_bar_item_hovered_color;
-            }
-        }
-        color: @menu_bar_font_color;
-        background-color: @menu_bar_color;
-        &::item {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            .item();
-        }
         QMenu {
             .default_font();
-            color: @menu_bar_font_color;
+            border: 1px solid @menu_bar_item_border_color;
             background-color: @menu_bar_color;
             &::item {
                 .item();
             }
             &::separator {
                 height: 2px;
-                background-color: linear-gradient(to top, @menu_bar_separator_grad_from, );
+                background-color: linear-gradient(to top, @menu_bar_separator_grad_from, @menu_bar_separator_grad_to);
                 margin: 1px 5px 0 15px;
             }
         }
+    }
+    QListView {
+        outline: none;
+        .default_font();
+        border: 1px solid @input_border_color;
+        background-color: @input_background;
+        &::item {
+            border-right: 1px solid @input_border_color;
+            outline: none;
+            &:hover {
+                background-color: @background;
+            }
+            &:focus {
+                border: none;
+                border-right: 1px solid @input_border_color;
+                background-color: @menu_bar_color;
+            }
+        }
+    }
+    QScrollBar {
+        .default_font();
+        background-color: @background;
+        background-image: none;
+        width: 15px;
+        &::add-page {
+            background: @background;
+        }
+        &::sub-page {
+            background: @background;
+        }
+        &::handle {
+            background: @menu_bar_color;
+        }
+        &::selected {
+            background: red;
+        }
+    }
+    QLabel {
+        .default_font();
+        background-color: @background;
+    }
+    QTextBrowser {
+        .default_font();
+        .default_input();
     }
 }

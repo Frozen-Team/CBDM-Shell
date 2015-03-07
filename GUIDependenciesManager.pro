@@ -18,11 +18,15 @@ RESOURCES += \
     res.qrc
 
 SOURCES += main.cpp\
-    dependencymanagermain.cpp
+    dependencymanagermain.cpp \
+    managermenubar.cpp \
+    managermenu.cpp
 
 HEADERS  += \
     version.h \
-    dependencymanagermain.h
+    dependencymanagermain.h \
+    managermenubar.h \
+    managermenu.h
 
 DISTFILES += \
     resources.rc \
