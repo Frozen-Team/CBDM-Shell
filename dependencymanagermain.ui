@@ -15,7 +15,7 @@
   </property>
   <property name="font">
    <font>
-    <family>ONRAMP</family>
+    <family>Nyala</family>
     <pointsize>17</pointsize>
    </font>
   </property>
@@ -25,139 +25,46 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="0">
-       <widget class="QLineEdit" name="vsPathLine">
-        <property name="minimumSize">
-         <size>
-          <width>81</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>VS Path</string>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="2">
+       <widget class="QListView" name="usedListView">
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOn</enum>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QComboBox" name="vsVersionComboBox">
-        <property name="minimumSize">
-         <size>
-          <width>81</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>VS Version</string>
+       <widget class="QListView" name="availableListView">
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOn</enum>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLineEdit" name="scriptFolderPathLine">
-        <property name="minimumSize">
-         <size>
-          <width>81</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="placeholderText">
-         <string>Script folder</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLineEdit" name="pythonPathLine">
-        <property name="minimumSize">
-         <size>
-          <width>81</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Python version must be 3.0 and higher</string>
-        </property>
-        <property name="placeholderText">
-         <string>Python path</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pythonBrowse">
-        <property name="minimumSize">
-         <size>
-          <width>91</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="vsBrowse">
-        <property name="minimumSize">
-         <size>
-          <width>91</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Logs:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item row="2" column="1">
-       <widget class="QComboBox" name="archComboBox">
-        <property name="minimumSize">
-         <size>
-          <width>91</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Architecture</string>
-        </property>
-        <property name="currentText">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="scriptBrowse">
-        <property name="minimumSize">
-         <size>
-          <width>91</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="2">
-       <widget class="QListView" name="listView_2">
-        <property name="verticalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOn</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QListView" name="listView">
-        <property name="verticalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOn</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <spacer name="verticalSpacer_2">
@@ -187,7 +94,11 @@
            </size>
           </property>
           <property name="text">
-           <string>&gt;&gt;&gt;</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="res.qrc">
+            <normaloff>:/res/Resources/all_right.png</normaloff>:/res/Resources/all_right.png</iconset>
           </property>
          </widget>
         </item>
@@ -206,7 +117,11 @@
            </size>
           </property>
           <property name="text">
-           <string>&gt;</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="res.qrc">
+            <normaloff>:/res/Resources/right.png</normaloff>:/res/Resources/right.png</iconset>
           </property>
          </widget>
         </item>
@@ -225,7 +140,11 @@
            </size>
           </property>
           <property name="text">
-           <string>&lt;</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="res.qrc">
+            <normaloff>:/res/Resources/left.png</normaloff>:/res/Resources/left.png</iconset>
           </property>
          </widget>
         </item>
@@ -244,7 +163,11 @@
            </size>
           </property>
           <property name="text">
-           <string>&lt;&lt;&lt;</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="res.qrc">
+            <normaloff>:/res/Resources/all_left.png</normaloff>:/res/Resources/all_left.png</iconset>
           </property>
          </widget>
         </item>
@@ -263,51 +186,14 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="configureButton">
-        <property name="minimumSize">
-         <size>
-          <width>10</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Configure</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Logs:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="0" colspan="3">
+      <item row="4" column="0" colspan="3">
        <widget class="QTextBrowser" name="textBrowser">
         <property name="verticalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOn</enum>
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
+      <item row="3" column="2">
        <widget class="QPushButton" name="generateButton">
         <property name="enabled">
          <bool>false</bool>
@@ -328,10 +214,36 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Available modules:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Used modules:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QPushButton" name="configureButton">
+        <property name="minimumSize">
+         <size>
+          <width>10</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Configure</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
-   <zorder></zorder>
   </widget>
   <widget class="ManagerMenuBar" name="menubar">
    <property name="geometry">
@@ -352,13 +264,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew_project"/>
-    <addaction name="actionOpen_project"/>
-    <addaction name="separator"/>
-    <addaction name="actionSave_project"/>
-    <addaction name="actionSave_project_as"/>
-    <addaction name="separator"/>
-    <addaction name="actionClose"/>
+    <addaction name="actionLoad_default_settings"/>
+    <addaction name="actionSettings"/>
     <addaction name="separator"/>
     <addaction name="actionMinimize"/>
     <addaction name="actionExit"/>
@@ -367,7 +274,8 @@
     <property name="title">
      <string>Project</string>
     </property>
-    <addaction name="actionRebuild"/>
+    <addaction name="actionConfigure"/>
+    <addaction name="actionGenerate"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -416,7 +324,7 @@ height: 1px;
   </action>
   <action name="actionRebuild">
    <property name="text">
-    <string>Rebuild CSS</string>
+    <string>Configure</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -479,6 +387,26 @@ height: 1px;
     <enum>QAction::AboutQtRole</enum>
    </property>
   </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionLoad_default_settings">
+   <property name="text">
+    <string>Load default settings</string>
+   </property>
+  </action>
+  <action name="actionConfigure">
+   <property name="text">
+    <string>Configure</string>
+   </property>
+  </action>
+  <action name="actionGenerate">
+   <property name="text">
+    <string>Generate</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -492,6 +420,8 @@ height: 1px;
    <header>managermenu.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

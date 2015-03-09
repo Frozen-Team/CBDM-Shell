@@ -5,6 +5,10 @@
 
 #include <QProcess>
 #include <QMenu>
+#include <QSettings>
+#include <QStandardItemModel>
+
+#include "settingsdialog.h"
 
 
 namespace Ui {
@@ -23,26 +27,30 @@ public:
     void setWindowPos(const QPoint& p) { move(p); }
 
 private slots:
-    void on_pushButton_clicked();
-
-    void on_actionRebuild_triggered();
 
     void on_actionExit_triggered();
 
-    void on_pythonBrowse_clicked();
-
 private slots:
-    void process();
-    void bytesRead(qint64 a);
+
+    void on_actionMinimize_triggered();
+
+    void on_actionSettings_triggered();
+
+    void on_actionAbout_Qt_triggered();
+
+    void loadModulesList(const QString &path);
 
 private:
-    QProcess* processs;
+    SettingsDialog* settingsDialog;
+
+    QStringList modulesList;
+    QStringList availableList;
+    QStringList usedList;
+
+    QStandardItemModel availableListModel;
+    QStandardItemModel usedListModel;
 
     Ui::DependencyManagerMain *ui;
-
-    bool findPythonPath(QString &pythonPath, QString &version);
-
-    void setupStyles();
 };
 
 #endif // DEPENDENCYMANAGERMAIN_H

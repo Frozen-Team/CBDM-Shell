@@ -21,6 +21,8 @@ protected:
 public slots:
     void holdCurrentWindowPos(QPoint&);
 
+    void setTitle(const QString &text);
+
 signals:
     void windowChangedPos(QPoint&);
 
@@ -28,6 +30,11 @@ private:
     bool moveWindow;
     QPoint oldMousePos;
     QPoint currentWindowPos;
+    QString title;
+
+    // QWidget interface
+protected:
+    void paintEvent(QPaintEvent *);
 };
 
 #endif // MANAGERMENUBAR_H

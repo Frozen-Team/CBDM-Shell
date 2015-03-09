@@ -20,17 +20,22 @@ RESOURCES += \
 SOURCES += main.cpp\
     dependencymanagermain.cpp \
     managermenubar.cpp \
-    managermenu.cpp
+    managermenu.cpp \
+    settingsdialog.cpp \
+    closemenubar.cpp
 
 HEADERS  += \
     version.h \
     dependencymanagermain.h \
     managermenubar.h \
-    managermenu.h
+    managermenu.h \
+    settingsdialog.h \
+    closemenubar.h
 
 DISTFILES += \
     resources.rc \
-    Styles/styles.css
+    Styles/styles.css \
+    icon.rc
 
 MOC_DIR = temp/
 OBJECTS_DIR = temp/
@@ -78,6 +83,7 @@ unix:!macx
 }
 
 FORMS += \
-    dependencymanagermain.ui
+    dependencymanagermain.ui \
+    settingsdialog.ui
 
 

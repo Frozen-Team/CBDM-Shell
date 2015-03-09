@@ -4,6 +4,9 @@ QMainWindow {
   width: 10px;
   height: 10px;
 }
+QMainWindow:focus {
+  border: 5px solid red;
+}
 QMainWindow QPushButton {
   font-size: 15pt;
   font-family: "ONRAMP";

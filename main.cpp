@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QMessageBox>
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {
@@ -23,8 +24,6 @@ int main(int argc, char *argv[])
 //        QMessageBox::critical(nullptr, "Hello", argv[i]);
 //        qDebug() << argv[i];
 //    }
-
-
 
     QDir dir(QDir::currentPath() + "/debug/Styles/");
     qDebug() << dir.currentPath();
@@ -48,10 +47,20 @@ int main(int argc, char *argv[])
         file.close();
     }
 
-    //this->setStyleSheet(stylesString);
-    qDebug() << stylesString;
-
     a.setStyleSheet(stylesString);
+
+    int fontID(-1);
+
+    QFile res(":/res/Resources/ONRAMP.ttf");
+    if (res.open(QIODevice::ReadOnly) == false) {
+        QMessageBox::warning(0, "Application", "Cannot open device for reading font.");
+    } else {
+        fontID = QFontDatabase::addApplicationFontFromData(res.readAll());
+        if (fontID == -1) {
+            QMessageBox::warning(0, "Application", "Cannot read font");
+        }
+    }
+    a.setFont(QFont("ONRANP", 13));
 
     return a.exec();
 }
