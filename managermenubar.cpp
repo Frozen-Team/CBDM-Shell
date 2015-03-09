@@ -13,8 +13,9 @@
 ManagerMenuBar::ManagerMenuBar(QWidget *parent)
     : QMenuBar(parent)
 {
-    //set
+    //connect(this, SIGNAL())
     moveWindow = false;
+    allowedMoveWindow = true;
     title = "Basic title";
 }
 
@@ -39,16 +40,18 @@ void ManagerMenuBar::mouseReleaseEvent(QMouseEvent *e)
 
 void ManagerMenuBar::mouseMoveEvent(QMouseEvent *e)
 {
-    if (moveWindow)
+    if (allowedMoveWindow)
     {
-        if (e->buttons() && Qt::LeftButton)
+        if (moveWindow)
         {
-            auto temp = ((QMainWindow*)parent())->pos();
-            ((QMainWindow*)parent())->move(e->pos() - oldMousePos + temp);
+            if (e->buttons() && Qt::LeftButton)
+            {
+                auto temp = ((QMainWindow*)parent())->pos();
+                ((QMainWindow*)parent())->move(e->pos() - oldMousePos + temp);
+            }
         }
     }
     QMenuBar::mouseMoveEvent(e);
-
 }
 
 void ManagerMenuBar::holdCurrentWindowPos(QPoint &p)
@@ -59,6 +62,19 @@ void ManagerMenuBar::holdCurrentWindowPos(QPoint &p)
 void ManagerMenuBar::setTitle(const QString &text)
 {
     title = text;
+}
+
+void ManagerMenuBar::allowMoveWindow()
+{
+
+    qDebug() << "Allowed";
+    allowedMoveWindow = true;
+}
+
+void ManagerMenuBar::forbidMoveWindow()
+{
+    qDebug() << "Not allowed";
+    allowedMoveWindow = false;
 }
 
 void ManagerMenuBar::paintEvent(QPaintEvent *e)

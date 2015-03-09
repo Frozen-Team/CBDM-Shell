@@ -22,10 +22,21 @@ DependencyManagerMain::DependencyManagerMain(QWidget *parent) :
     ui(new Ui::DependencyManagerMain)
 {
     ui->setupUi(this);
-    CloseMenuBar* closeMenu = new CloseMenuBar(ui->menubar);
-    ui->menubar->setCornerWidget(closeMenu);
+
+    connect(ui->menuFile, &QMenu::aboutToShow, ui->menuBar, &ManagerMenuBar::forbidMoveWindow);
+    connect(ui->menuFile, &QMenu::aboutToHide, ui->menuBar, &ManagerMenuBar::allowMoveWindow);
+
+    connect(ui->menuProject, &QMenu::aboutToShow, ui->menuBar, &ManagerMenuBar::forbidMoveWindow);
+    connect(ui->menuProject, &QMenu::aboutToHide, ui->menuBar, &ManagerMenuBar::allowMoveWindow);
+
+    connect(ui->menuHelp, &QMenu::aboutToShow, ui->menuBar, &ManagerMenuBar::forbidMoveWindow);
+    connect(ui->menuHelp, &QMenu::aboutToHide, ui->menuBar, &ManagerMenuBar::allowMoveWindow);
+
+
+    CloseMenuBar* closeMenu = new CloseMenuBar(ui->menuBar);
+    ui->menuBar->setCornerWidget(closeMenu);
     connect(closeMenu, SIGNAL(onClose()), this, SLOT(close()));
-    ui->menubar->setTitle("GUI Dependency Manager");
+    ui->menuBar->setTitle("GUI Dependency Manager");
 
     settingsDialog = new SettingsDialog(this);
     if (settingsDialog != nullptr)
@@ -42,11 +53,6 @@ DependencyManagerMain::DependencyManagerMain(QWidget *parent) :
     {
         QStandardItem *item = new QStandardItem(itemStr);
         availableListModel.appendRow(item);
-    }
-
-    for (int i = 0; i < 50; ++i)
-    {
-
     }
 }
 
@@ -99,4 +105,9 @@ void DependencyManagerMain::loadModulesList(const QString &path)
         }
     }
     availableList = modulesList;
+}
+
+void DependencyManagerMain::on_actionHelp_me_triggered()
+{
+
 }

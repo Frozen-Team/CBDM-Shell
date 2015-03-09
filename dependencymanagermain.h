@@ -40,6 +40,8 @@ private slots:
 
     void loadModulesList(const QString &path);
 
+    void on_actionHelp_me_triggered();
+
 private:
     SettingsDialog* settingsDialog;
 

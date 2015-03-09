@@ -30,7 +30,7 @@ QMainWindow {
     height: 10px;
     &:focus
     {
-            border: 5px solid red;
+        border: 5px solid red;
     }
     .default_font() {
         font-size: 15pt;
@@ -135,6 +135,7 @@ QMainWindow {
         border: 1px solid @input_border_color;
         background-color: @input_background;
         &::item {
+            color: @input_text_color;
             border-right: 1px solid @input_border_color;
             outline: none;
             &:hover {
@@ -146,6 +147,9 @@ QMainWindow {
                 background-color: @menu_bar_color;
             }
         }
+    }
+    QMessageBox {
+        background-color: @background;
     }
     QScrollBar {
         .default_font();

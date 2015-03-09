@@ -80,8 +80,11 @@ void SettingsDialog::loadSettings()
         }
     }
 
-    if ((settings->contains("VSPath")) && ((path = settings->value("VSPath").toString()) != QString("")) && isExists(path))
+    QString vsVersionStr;
+    if ((settings->contains("VSPath")) && ((path = settings->value("VSPath").toString()) != QString("")) && isExists(path) &&
+            ((settings->contains("VSVersion")) && (vsVersionStr = settings->value("VSVersion").toString()) != QString("")))
     {
+        ui->vsVersionLabel->setText(vsVersionStr);
         ui->vsPathLine->setText(path);
     } else
     {
@@ -93,31 +96,8 @@ void SettingsDialog::loadSettings()
             QRegExp parsVSVer("\\d.");
             parsVSVer.indexIn(pathsMap[vsPath]);
             vsVersion = vsVersionMap[parsVSVer.capturedTexts().at(0).toInt()];
+            ui->vsVersionLabel->setText(vsVersion);
             ui->vsPathLine->setText(pathsMap.keys().last());
-        } else {
-            if (this->isHidden())
-            {
-                show();
-            }
-        }
-    }
-
-    if ((settings->contains("ScriptPath")) && ((path = settings->value("ScriptPath").toString()) != QString("")) && isExists(path))
-    {
-        ui->scriptFolderPathLine->setText(path);
-    } else
-    {
-        QMap<QString, QString> pathsMap;
-        if (findPath("cl.exe", QStringList(), QRegExp("VC"),
-                     QStringList() << "Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\Bin" << "Applications\\", "", QRegExp("((\\d+).?){3}"), pathsMap))
-        {
-            vsPath = pathsMap.keys().last();
-            // Cut path:
-            vsPath = vsPath.mid(0, vsPath.length() - 6);
-            QRegExp parsVSVer("\\d.");
-            parsVSVer.indexIn(pathsMap[vsPath]);
-            vsVersion = vsVersionMap[parsVSVer.capturedTexts().at(0).toInt()];
-            ui->vsPathLine->setText(vsPath);
         } else {
             if (this->isHidden())
             {
@@ -236,7 +216,6 @@ void SettingsDialog::on_okPushButton_clicked()
     settings->setValue("PythonPath", pythonPath);
     settings->setValue("VSPath", vsPath);
     settings->setValue("VSVersion", vsVersion);
-    settings->setValue("OutputPath", outputPath);
 
     settings->setValue("OutputPath", outputPath);
     close();

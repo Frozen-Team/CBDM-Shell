@@ -6,6 +6,7 @@
 
 class ManagerMenu : public QMenu
 {
+    Q_OBJECT
 public:
     explicit ManagerMenu(QWidget* parent = 0);
     ~ManagerMenu();

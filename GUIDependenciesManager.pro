@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     managermenubar.cpp \
     managermenu.cpp \
     settingsdialog.cpp \
-    closemenubar.cpp
+    closemenubar.cpp \
+    helpdialog.cpp
 
 HEADERS  += \
     version.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     managermenubar.h \
     managermenu.h \
     settingsdialog.h \
-    closemenubar.h
+    closemenubar.h \
+    helpdialog.h
 
 DISTFILES += \
     resources.rc \
@@ -84,6 +86,7 @@ unix:!macx
 
 FORMS += \
     dependencymanagermain.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    helpdialog.ui
 
 

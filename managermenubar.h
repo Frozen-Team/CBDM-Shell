@@ -23,6 +23,10 @@ public slots:
 
     void setTitle(const QString &text);
 
+    void allowMoveWindow();
+
+    void forbidMoveWindow();
+
 signals:
     void windowChangedPos(QPoint&);
 
@@ -31,6 +35,8 @@ private:
     QPoint oldMousePos;
     QPoint currentWindowPos;
     QString title;
+
+    bool allowedMoveWindow;
 
     // QWidget interface
 protected:

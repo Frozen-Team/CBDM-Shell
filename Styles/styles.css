@@ -123,6 +123,7 @@ QMainWindow QListView {
   background-color: #1f1f1f;
 }
 QMainWindow QListView::item {
+  color: #95a5a6;
   border-right: 1px solid #1f1f1f;
   outline: none;
 }
@@ -133,6 +134,9 @@ QMainWindow QListView::item:focus {
   border: none;
   border-right: 1px solid #1f1f1f;
   background-color: #636363;
+}
+QMainWindow QMessageBox {
+  background-color: #2e2e2e;
 }
 QMainWindow QScrollBar {
   font-size: 15pt;
