@@ -76,7 +76,7 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLineEdit" name="scriptFolderPathLine">
+       <widget class="QLineEdit" name="scriptPathLine">
         <property name="minimumSize">
          <size>
           <width>81</width>
@@ -157,7 +157,7 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="outputBrowse">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -230,7 +230,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="ManagerMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -240,6 +240,14 @@
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>136</width>
+      <height>115</height>
+     </rect>
+    </property>
     <property name="title">
      <string>File</string>
     </property>
@@ -270,13 +278,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>ManagerMenuBar</class>
-   <extends>QMenuBar</extends>
-   <header>managermenubar.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

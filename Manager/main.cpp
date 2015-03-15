@@ -25,29 +25,34 @@ int main(int argc, char *argv[])
 //        qDebug() << argv[i];
 //    }
 
-    QDir dir(QDir::currentPath() + "/debug/Styles/");
-    qDebug() << dir.currentPath();
-    QStringList filter("*.css");
-    QFileInfoList stylesFilesList = dir.entryInfoList(filter, QDir::Files);
+    //QDir dir(QDir::currentPath() + "/debug/Styles/");
+    //QStringList filter("*.css");
+    //QFileInfoList stylesFilesList = dir.entryInfoList(filter, QDir::Files);
 
-    QString stylesString;
+//    for (QFileInfo &fileInfo : stylesFilesList)
+//    {
+//        QFile file(fileInfo.filePath());
+//        if (file.open(QFile::ReadOnly))
+//        {
+//            QTextStream stream(&file);
+//            stylesString += stream.readAll();
+//        } else
+//        {
+//            qDebug() << "Unable read file: " << fileInfo.filePath();
+//        }
 
-    for (QFileInfo &fileInfo : stylesFilesList)
+//        file.close();
+//    }
+
+    QFile stylesFile(":/res/Resources/Styles/styles.css");
+    if (stylesFile.open(QFile::ReadOnly))
     {
-        QFile file(fileInfo.filePath());
-        if (file.open(QFile::ReadOnly))
-        {
-            QTextStream stream(&file);
-            stylesString += stream.readAll();
-        } else
-        {
-            qDebug() << "Unable read file: " << fileInfo.filePath();
-        }
-
-        file.close();
+        QTextStream textStream(&stylesFile);
+        a.setStyleSheet(textStream.readAll());
+    } else
+    {
+        QMessageBox::warning(0, "Application", "Cannot open device for reading stylesheet");
     }
-
-    a.setStyleSheet(stylesString);
 
     int fontID(-1);
 

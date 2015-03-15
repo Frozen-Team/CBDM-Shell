@@ -9,6 +9,7 @@
 #include <QStandardItemModel>
 
 #include "settingsdialog.h"
+#include "modulesettings.h"
 
 
 namespace Ui {
@@ -26,15 +27,16 @@ public:
     QPoint getWindowPos() { return this->pos(); }
     void setWindowPos(const QPoint& p) { move(p); }
 
+public slots:
+    void showSettingsDialog();
+
+    void showModuleSettingsDialog(const QString &moduleName);
+
 private slots:
 
     void on_actionExit_triggered();
 
-private slots:
-
     void on_actionMinimize_triggered();
-
-    void on_actionSettings_triggered();
 
     void on_actionAbout_Qt_triggered();
 
@@ -42,7 +44,10 @@ private slots:
 
     void on_actionHelp_me_triggered();
 
+    void on_availableListView_doubleClicked(const QModelIndex &index);
+
 private:
+    ModuleSettings* moduleSettingsDialog;
     SettingsDialog* settingsDialog;
 
     QStringList modulesList;

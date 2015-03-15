@@ -218,14 +218,14 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="staticLabel">
         <property name="text">
          <string>Available modules:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="staticLabel_1">
         <property name="text">
          <string>Used modules:</string>
         </property>
@@ -248,22 +248,22 @@
     </item>
    </layout>
   </widget>
-  <widget class="ManagerMenuBar" name="menuBar">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>841</width>
-     <height>45</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
      <width>0</width>
-     <height>45</height>
+     <height>0</height>
     </size>
    </property>
-   <widget class="ManagerMenu" name="menuFile">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
@@ -273,14 +273,14 @@
     <addaction name="actionMinimize"/>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="ManagerMenu" name="menuProject">
+   <widget class="QMenu" name="menuProject">
     <property name="title">
      <string>Project</string>
     </property>
     <addaction name="actionConfigure"/>
     <addaction name="actionGenerate"/>
    </widget>
-   <widget class="ManagerMenu" name="menuHelp">
+   <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
@@ -398,7 +398,7 @@ height: 1px;
   </action>
   <action name="actionLoad_default_settings">
    <property name="text">
-    <string>Load default settings</string>
+    <string>Start from scratch</string>
    </property>
   </action>
   <action name="actionConfigure">
@@ -417,18 +417,6 @@ height: 1px;
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>ManagerMenuBar</class>
-   <extends>QMenuBar</extends>
-   <header>managermenubar.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ManagerMenu</class>
-   <extends>QMenu</extends>
-   <header>managermenu.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>

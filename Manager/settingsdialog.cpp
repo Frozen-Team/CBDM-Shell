@@ -8,25 +8,30 @@
 #include <QRegExp>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "closemenubar.h"
+#include <QMap>
+#include "dialogutils.h"
+
+const QMap<QString, QString> AVAILABLE_ARCHS = {{"x86", "x86"}, {"x64", "x64"}}; // for reason if different values of archs
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
-    QMainWindow(parent, Qt::FramelessWindowHint | Qt::Window), // Remove titlebar and border
-    ui(new Ui::SettingsDialog)
+    ui(new Ui::SettingsDialog), QMainWindow(parent)
 {
     ui->setupUi(this);
-    CloseMenuBar* closeMenu = new CloseMenuBar(ui->menubar);
-    ui->menubar->setCornerWidget(closeMenu);
-    connect(closeMenu, SIGNAL(onClose()), this, SLOT(close()));
-    ui->menubar->setCornerWidget(closeMenu);
-    ui->menubar->setTitle("Settings");
+
+    needToShow = false;
+
+    this->setWindowTitle("Settings");
+    this->setWindowModality(Qt::ApplicationModal);
 
     // Loading settings
     settings = new QSettings("configuration.ini", QSettings::IniFormat, this);
 
-    ui->archComboBox->addItem("x86");
-    ui->archComboBox->addItem("x64");
-    ui->archComboBox->setCurrentIndex(1); // x64 by default
+    for (const auto &arch : AVAILABLE_ARCHS.keys())
+    {
+        ui->archComboBox->addItem(arch);
+    }
+
+    ui->archComboBox->setCurrentIndex(-1); // None by default
 }
 
 SettingsDialog::~SettingsDialog()
@@ -52,7 +57,7 @@ SettingsDialog::~SettingsDialog()
 //                                                };
 
 const QMap<int, QString> vsVersionMap = {
-    {15, "Microsoft Visual Studio 2008"},
+    {15, "Microsoft Visual Studio 2008"}, // Is not reccomended!
     {16, "Microsoft Visual Studio 2010"},
     {17, "Microsoft Visual Studio 2012"},
     {18, "Microsoft Visual Studio 2013"}};
@@ -61,6 +66,7 @@ void SettingsDialog::loadSettings()
 {
     QString path;
 
+    // Check for python
     if ((settings->contains("PythonPath")) && ((path = settings->value("PythonPath").toString()) != QString("")) && isExists(path))
     {
         ui->pythonPathLine->setText(path);
@@ -73,13 +79,11 @@ void SettingsDialog::loadSettings()
             pythonPath = pathsMap.keys().last();
             ui->pythonPathLine->setText(pathsMap.keys().last());
         } else {
-            if (this->isHidden())
-            {
-                show();
-            }
+            needToShow = true;
         }
     }
 
+    // Check for Visual Studio
     QString vsVersionStr;
     if ((settings->contains("VSPath")) && ((path = settings->value("VSPath").toString()) != QString("")) && isExists(path) &&
             ((settings->contains("VSVersion")) && (vsVersionStr = settings->value("VSVersion").toString()) != QString("")))
@@ -99,24 +103,42 @@ void SettingsDialog::loadSettings()
             ui->vsVersionLabel->setText(vsVersion);
             ui->vsPathLine->setText(pathsMap.keys().last());
         } else {
-            if (this->isHidden())
-            {
-                show();
-            }
+            needToShow = true;
         }
     }
 
-    if ((settings->contains("OutputPath")) && ((path = settings->value("OutputPath").toString()) != QString("")) && isExists(path))
+    // Check for architecture
+    QString arch;
+    if ((settings->contains("Architecture")) && ((arch = settings->value("Architecture").toString()) != QString("")))
+    {
+        architecture = arch;
+        ui->archComboBox->setCurrentText(arch);
+    } else
+    {
+        needToShow = true;
+    }
+
+
+    // Check for Script Path
+    //"D:\\YandexDisk\\FrozenTeam\\CPPDependenciesManager"
+    if ((settings->contains("ScriptPath")) && ((path = settings->value("ScriptPath").toString()) != QString("")) && isExists(path))
+    {
+        scriptPath = path;
+        ui->scriptPathLine->setText(path);
+    } else
+    {
+        needToShow = true;
+    }
+
+
+    // Check for Output Path
+    if ((settings->contains("OutputPath")) && ((path = settings->value("OutputPath").toString()) != QString("")))
     {
         outputPath = path;
         ui->outputPathLine->setText(path);
     } else
     {
-        // Check if window is already showed at this moment. If not then show
-        if (this->isHidden())
-        {
-            show();
-        }
+        needToShow = true;
     }
 }
 
@@ -198,25 +220,25 @@ void SettingsDialog::on_actionExit_triggered()
 
 void SettingsDialog::on_pythonBrowse_clicked()
 {
-    QFileDialog dialog;
-
-    dialog.setFileMode(QFileDialog::Directory);
-    dialog.setOption(QFileDialog::ShowDirsOnly);
-
-    // User is BOSS
-    if (dialog.exec() != 0)
+    if (browseFolderTrigger(pythonPath, this))
     {
-        pythonPath = dialog.selectedFiles().at(0);
         ui->pythonPathLine->setText(pythonPath);
     }
 }
 
 void SettingsDialog::on_okPushButton_clicked()
 {
+    pythonPath = ui->pythonPathLine->text();
+    vsPath = ui->vsPathLine->text();
+    architecture = ui->archComboBox->currentText();
+    outputPath = ui->outputPathLine->text();
+    scriptPath = ui->scriptPathLine->text();
+
     settings->setValue("PythonPath", pythonPath);
     settings->setValue("VSPath", vsPath);
+    settings->setValue("ScriptPath", scriptPath);
     settings->setValue("VSVersion", vsVersion);
-
+    settings->setValue("Architecture", architecture);
     settings->setValue("OutputPath", outputPath);
     close();
 }
@@ -226,7 +248,26 @@ void SettingsDialog::on_cancelPushButton_clicked()
     close();
 }
 
-void SettingsDialog::on_outputPathLine_textChanged(const QString &arg1)
+void SettingsDialog::on_vsBrowse_clicked()
 {
-    outputPath = arg1;
+    if (browseFolderTrigger(vsPath, this))
+    {
+        ui->vsPathLine->setText(vsPath);
+    }
+}
+
+void SettingsDialog::on_scriptBrowse_clicked()
+{
+    if (browseFolderTrigger(scriptPath, this))
+    {
+        ui->scriptPathLine->setText(scriptPath);
+    }
+}
+
+void SettingsDialog::on_outputBrowse_clicked()
+{
+    if (browseFolderTrigger(outputPath, this))
+    {
+        ui->outputPathLine->setText(outputPath);
+    }
 }

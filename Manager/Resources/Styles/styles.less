@@ -22,16 +22,21 @@
 @input_text_color: #95a5a6;
 @input_background: #1f1f1f;
 @input_border_color: #1f1f1f;
-//
+// QCheckBox::indicator:unchecked
+// QCheckBox::indicator:checked:pressed {
+//     image: url(:/images/checkbox_checked_pressed.png);
+// }
+// QCheckBox::indicator:indeterminate:hover {
+//     image: url(:/images/checkbox_indeterminate_hover.png);
+// }
+// QCheckBox::indicator:indeterminate:pressed {
+//     image: url(:/images/checkbox_indeterminate_pressed.png);
+// }
+@aa: ~":!enabled";
 QMainWindow {
     background: @background;
-    border: 5px solid @menu_bar_color;
     width: 10px;
     height: 10px;
-    &:focus
-    {
-        border: 5px solid red;
-    }
     .default_font() {
         font-size: 15pt;
         font-family: "ONRAMP";
@@ -40,6 +45,8 @@ QMainWindow {
     QPushButton {
         .default_font();
         border: none;
+        min-width: 91;
+        min-height: 31;
         background-color: @def_btn_color;
         &:hover {
             background-color: @hovered_btn_color;
@@ -48,14 +55,61 @@ QMainWindow {
             background-color: @pressed_btn_color;
         }
     }
+    QCheckBox {
+        .default_font();
+        min-height: 36px;
+        &::indicator {
+            width: 32px;
+            height: 32px;
+            &:unchecked {
+                image: url(:/res/Resources/UI/QCheckBox/checkbox_32.png);
+                &:hover {
+                    image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
+                }
+                &:pressed {
+                    image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
+                }
+                &:disabled {
+                    image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
+                }
+            }
+            &:checked {
+                image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_32.png);
+                &:hover {
+                    image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
+                }
+                &:pressed {
+                    image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
+                }
+                &:disabled {
+                    image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
+                }
+            }
+        }
+    }
     .default_input() {
         .default_font();
+        min-height: 31px;
         border: 1px solid @input_border_color;
         background-color: @input_background;
         selection-background-color: ltblue;
     }
     QLineEdit, QComboBox {
         .default_input();
+    }
+    QSplitter::handle {
+        &:horizontal {
+            width: 2px;
+            background-color: @background;
+        }
+        &:vertical {
+            width: 2px;
+            background-color: @background;
+        }
+    }
+    QFileDialog {
+        .default_font();
+        background-color: @background;
     }
     QComboBox {
         .default_input();
@@ -76,11 +130,10 @@ QMainWindow {
             }
         }
         &::drop-down {
-            width: 17px;
-            border: none;
+            //width: 17px;
+            border: 10px;
         }
         QAbstractItemView {
-            margin-top: 5px;
             border: 1px solid @menu_bar_item_border_color;
             selection-background-color: @hovered_btn_color;
         }
@@ -89,7 +142,7 @@ QMainWindow {
         .default_font();
         .item () {
             .default_font();
-            padding: 3px 20px;
+            padding: 3px 10px;
             background-color: @menu_bar_color;
             &:selected {
                 //border-top: 1px solid @menu_bar_item_border_color;
@@ -97,8 +150,7 @@ QMainWindow {
                 background-color: @menu_bar_item_hovered_color;
             }
         }
-        border: 5px solid @menu_bar_color;
-        border-radius: 6px;
+        border: 2px solid @menu_bar_color;
         background-color: @menu_bar_color;
         &:pressed {
             background-color: @pressed_btn_color;
@@ -108,7 +160,7 @@ QMainWindow {
             margin: 0;
             padding: 0;
             border: 0;
-            margin-top: 10px;
+            margin-top: 3px;
             .item();
             &:pressed {
                 background-color: @pressed_btn_color;
@@ -125,7 +177,7 @@ QMainWindow {
             &::separator {
                 height: 2px;
                 background-color: linear-gradient(to top, @menu_bar_separator_grad_from, @menu_bar_separator_grad_to);
-                margin: 1px 5px 0 15px;
+                margin: 1px 5px 0 5px;
             }
         }
     }
@@ -164,9 +216,6 @@ QMainWindow {
         }
         &::handle {
             background: @menu_bar_color;
-        }
-        &::selected {
-            background: red;
         }
     }
     QLabel {

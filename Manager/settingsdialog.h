@@ -22,8 +22,10 @@ public:
 
     void loadSettings();
 
+    bool isNeedToShow() { return needToShow; }
+
 signals:
-    void logSignal(const QString &logessage);
+    void logSignal(const QString &logMessage);
 
 private slots:
 
@@ -35,7 +37,11 @@ private slots:
 
     void on_cancelPushButton_clicked();
 
-    void on_outputPathLine_textChanged(const QString &arg1);
+    void on_vsBrowse_clicked();
+
+    void on_scriptBrowse_clicked();
+
+    void on_outputBrowse_clicked();
 
 private:
 
@@ -57,8 +63,11 @@ private:
     QString vsVersion;
     QString architecture;
     QString outputPath;
+    QString scriptPath;
 
-    bool isAllSettingsLoaded;
+    bool needToShow;
+
+    bool alllSettingsLoaded;
 
     // QWidget interface
 protected:

@@ -13,41 +13,35 @@
 #include <QMessageBox>
 #include <QStandardItemModel>
 
-#include "closemenubar.h"
 
+const QString modulesPathSuffix = "\\core\\modules\\";
 
 
 DependencyManagerMain::DependencyManagerMain(QWidget *parent) :
-    QMainWindow(parent, Qt::FramelessWindowHint | Qt::Window), // Remove titlebar and border
     ui(new Ui::DependencyManagerMain)
 {
     ui->setupUi(this);
 
-    connect(ui->menuFile, &QMenu::aboutToShow, ui->menuBar, &ManagerMenuBar::forbidMoveWindow);
-    connect(ui->menuFile, &QMenu::aboutToHide, ui->menuBar, &ManagerMenuBar::allowMoveWindow);
-
-    connect(ui->menuProject, &QMenu::aboutToShow, ui->menuBar, &ManagerMenuBar::forbidMoveWindow);
-    connect(ui->menuProject, &QMenu::aboutToHide, ui->menuBar, &ManagerMenuBar::allowMoveWindow);
-
-    connect(ui->menuHelp, &QMenu::aboutToShow, ui->menuBar, &ManagerMenuBar::forbidMoveWindow);
-    connect(ui->menuHelp, &QMenu::aboutToHide, ui->menuBar, &ManagerMenuBar::allowMoveWindow);
-
-
-    CloseMenuBar* closeMenu = new CloseMenuBar(ui->menuBar);
-    ui->menuBar->setCornerWidget(closeMenu);
-    connect(closeMenu, SIGNAL(onClose()), this, SLOT(close()));
-    ui->menuBar->setTitle("GUI Dependency Manager");
+    moduleSettingsDialog = new ModuleSettings(this);
+    moduleSettingsDialog->setWindowModality(Qt::ApplicationModal);
 
     settingsDialog = new SettingsDialog(this);
+    settingsDialog->setWindowModality(Qt::ApplicationModal);
     if (settingsDialog != nullptr)
     {
         settingsDialog->loadSettings();
     }
+    if (settingsDialog->isNeedToShow())
+    {
+        settingsDialog->show();
+    }
+
+    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
 
     ui->availableListView->setModel(&availableListModel);
     ui->usedListView->setModel(&usedListModel);
 
-    loadModulesList("D:\\YandexDisk\\FrozenTeam\\CPPDependenciesManager\\core\\modules\\");
+    loadModulesList("D:\\YandexDisk\\FrozenTeam\\CPPDependenciesManager" + modulesPathSuffix);
 
     for (const QString &itemStr : availableList)
     {
@@ -61,6 +55,30 @@ DependencyManagerMain::~DependencyManagerMain()
     delete ui;
 }
 
+void DependencyManagerMain::showSettingsDialog()
+{
+    if (settingsDialog != nullptr)
+    {
+        settingsDialog->show();
+    } else {
+        QMessageBox::critical(this, "Error showing SettingsDialog!", "Not created dialog. SettingsDialog == nullptr.");
+    }
+}
+
+void DependencyManagerMain::showModuleSettingsDialog(const QString &moduleName)
+{
+    if (moduleSettingsDialog != nullptr)
+    {
+        if (moduleSettingsDialog->loadUi("D:\\YandexDisk\\FrozenTeam\\CPPDependenciesManager" +
+                                         modulesPathSuffix + moduleName))
+        {
+            moduleSettingsDialog->show();
+        }
+    } else {
+        QMessageBox::critical(this, "Error showing ModuleSettingsDialog!", "Not created dialog. ModuleSettingsDialog == nullptr.");
+    }
+}
+
 void DependencyManagerMain::on_actionExit_triggered()
 {
     close();
@@ -69,17 +87,6 @@ void DependencyManagerMain::on_actionExit_triggered()
 void DependencyManagerMain::on_actionMinimize_triggered()
 {
     QWidget::showMinimized();
-}
-
-void DependencyManagerMain::on_actionSettings_triggered()
-{
-    if (settingsDialog != nullptr)
-    {
-        settingsDialog->show();
-    } else {
-        QMessageBox::critical(this, "Error showing SettingsDialog!", "Not created dialog. SettingsDialog == nullptr");
-    }
-
 }
 
 void DependencyManagerMain::on_actionAbout_Qt_triggered()
@@ -110,4 +117,9 @@ void DependencyManagerMain::loadModulesList(const QString &path)
 void DependencyManagerMain::on_actionHelp_me_triggered()
 {
 
+}
+
+void DependencyManagerMain::on_availableListView_doubleClicked(const QModelIndex &index)
+{    
+    showModuleSettingsDialog(index.data().toString());
 }

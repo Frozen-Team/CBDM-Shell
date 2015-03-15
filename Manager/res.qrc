@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>Resources/ONRAMP.ttf</file>
+        <file>Resources/32.png</file>
+        <file>Resources/256.png</file>
+        <file>Resources/logo_white_16.png</file>
+        <file>Resources/right.png</file>
+        <file>Resources/left.png</file>
+        <file>Resources/all_right.png</file>
+        <file>Resources/all_left.png</file>
+        <file>Resources/Styles/styles.css</file>
+        <file>Resources/UI/QCheckBox/checkbox_16.png</file>
+        <file>Resources/UI/QCheckBox/checkbox_checked_16.png</file>
+        <file>Resources/UI/QCheckBox/checkbox_hovered_16.png</file>
+        <file>Resources/UI/QCheckBox/checkbox_checked_hovered_16.png</file>
+        <file>Resources/UI/QCheckBox/disabled_16.png</file>
+        <file>Resources/UI/QCheckBox/checkbox_32.png</file>
+        <file>Resources/UI/QCheckBox/checkbox_checked_32.png</file>
+        <file>Resources/UI/QCheckBox/checkbox_hovered_32.png</file>
+        <file>Resources/UI/QCheckBox/checkbox_checked_hovered_32.png</file>
+        <file>Resources/UI/QCheckBox/disabled_32.png</file>
+    </qresource>
+</RCC>
