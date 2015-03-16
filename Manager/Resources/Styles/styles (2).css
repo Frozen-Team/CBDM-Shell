@@ -1,0 +1,217 @@
+QMainWindow {
+  background: #2e2e2e;
+  width: 10px;
+  height: 10px;
+}
+QMainWindow QPushButton {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: none;
+  min-width: 91;
+  min-height: 31;
+  background-color: #525252;
+}
+QMainWindow QPushButton:hover {
+  background-color: #3e3e3e;
+}
+QMainWindow QPushButton:pressed {
+  background-color: #333333;
+}
+QMainWindow QCheckBox {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  min-height: 36px;
+}
+QMainWindow QCheckBox::indicator {
+  width: 32px;
+  height: 32px;
+}
+QMainWindow QCheckBox::indicator:unchecked {
+  image: url(:/res/Resources/UI/QCheckBox/checkbox_32.png);
+}
+QMainWindow QCheckBox::indicator:unchecked:hover {
+  image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
+}
+QMainWindow QCheckBox::indicator:unchecked:pressed {
+  image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
+}
+QMainWindow QCheckBox::indicator:unchecked:disabled {
+  image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
+}
+QMainWindow QCheckBox::indicator:checked {
+  image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_32.png);
+}
+QMainWindow QCheckBox::indicator:checked:hover {
+  image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
+}
+QMainWindow QCheckBox::indicator:checked:pressed {
+  image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
+}
+QMainWindow QCheckBox::indicator:checked:disabled {
+  image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
+}
+QMainWindow QLineEdit,
+QMainWindow QComboBox {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  min-height: 31px;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
+}
+QMainWindow QSplitter::handle:horizontal {
+  width: 2px;
+  background-color: #2e2e2e;
+}
+QMainWindow QSplitter::handle:vertical {
+  width: 2px;
+  background-color: #2e2e2e;
+}
+QMainWindow QFileDialog {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  background-color: #2e2e2e;
+}
+QMainWindow QComboBox {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  min-height: 31px;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
+  border: none;
+}
+QMainWindow QComboBox::on {
+  background-color: #3a3a3a;
+}
+QMainWindow QComboBox::down-arrow {
+  background-color: #525252;
+  border: none;
+  height: 31px;
+  width: 17px;
+}
+QMainWindow QComboBox::down-arrow::hover {
+  background-color: #3e3e3e;
+}
+QMainWindow QComboBox::down-arrow::pressed {
+  background-color: #333333;
+}
+QMainWindow QComboBox::drop-down {
+  border: 10px;
+}
+QMainWindow QComboBox QAbstractItemView {
+  border: 1px solid #26282a;
+  selection-background-color: #3e3e3e;
+}
+QMainWindow QMenuBar {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 2px solid #636363;
+  background-color: #636363;
+}
+QMainWindow QMenuBar:pressed {
+  background-color: #333333;
+  border: 1px solid #3e3e3e;
+}
+QMainWindow QMenuBar::item {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  margin-top: 3px;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  padding: 3px 10px;
+  background-color: #636363;
+}
+QMainWindow QMenuBar::item:selected {
+  background-color: #3e3e3e;
+}
+QMainWindow QMenuBar::item:pressed {
+  background-color: #333333;
+  border: 1px solid #3e3e3e;
+}
+QMainWindow QMenuBar QMenu {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 1px solid #26282a;
+  background-color: #636363;
+}
+QMainWindow QMenuBar QMenu::item {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  padding: 3px 10px;
+  background-color: #636363;
+}
+QMainWindow QMenuBar QMenu::item:selected {
+  background-color: #3e3e3e;
+}
+QMainWindow QMenuBar QMenu::separator {
+  height: 2px;
+  background-color: linear-gradient(to top, #fefcea, #f1da36);
+  margin: 1px 5px 0 5px;
+}
+QMainWindow QListView {
+  outline: none;
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+}
+QMainWindow QListView::item {
+  color: #95a5a6;
+  border-right: 1px solid #1f1f1f;
+  outline: none;
+}
+QMainWindow QListView::item:hover {
+  background-color: #2e2e2e;
+}
+QMainWindow QListView::item:focus {
+  border: none;
+  border-right: 1px solid #1f1f1f;
+  background-color: #636363;
+}
+QMainWindow QMessageBox {
+  background-color: #2e2e2e;
+}
+QMainWindow QScrollBar {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  background-color: #2e2e2e;
+  background-image: none;
+  width: 15px;
+}
+QMainWindow QScrollBar::add-page {
+  background: #2e2e2e;
+}
+QMainWindow QScrollBar::sub-page {
+  background: #2e2e2e;
+}
+QMainWindow QScrollBar::handle {
+  background: #636363;
+}
+QMainWindow QLabel {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  background-color: #2e2e2e;
+}
+QMainWindow QTextBrowser {
+  font-size: 15pt;
+  font-family: "ONRAMP";
+  color: #c8c8c8;
+  min-height: 31px;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
+}

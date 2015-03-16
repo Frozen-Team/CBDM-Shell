@@ -24,8 +24,17 @@ public:
 
     bool isNeedToShow() { return needToShow; }
 
+    QString getPythonPath() const;
+    QString getVsPath() const;
+    QString getVsVersion() const;
+    QString getArchitecture() const;
+    QString getOutputPath() const;
+    QString getScriptPath() const;
+
 signals:
     void logSignal(const QString &logMessage);
+
+    void settingsChanged();
 
 private slots:
 

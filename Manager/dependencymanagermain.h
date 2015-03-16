@@ -32,6 +32,8 @@ public slots:
 
     void showModuleSettingsDialog(const QString &moduleName);
 
+    void reloadModules();
+
 private slots:
 
     void on_actionExit_triggered();

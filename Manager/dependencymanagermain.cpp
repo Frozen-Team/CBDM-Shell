@@ -37,17 +37,12 @@ DependencyManagerMain::DependencyManagerMain(QWidget *parent) :
     }
 
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
+    connect(settingsDialog, SIGNAL(settingsChanged()), this, SLOT(reloadModules()));
 
     ui->availableListView->setModel(&availableListModel);
     ui->usedListView->setModel(&usedListModel);
 
-    loadModulesList("D:\\YandexDisk\\FrozenTeam\\CPPDependenciesManager" + modulesPathSuffix);
-
-    for (const QString &itemStr : availableList)
-    {
-        QStandardItem *item = new QStandardItem(itemStr);
-        availableListModel.appendRow(item);
-    }
+    reloadModules();
 }
 
 DependencyManagerMain::~DependencyManagerMain()
@@ -69,13 +64,27 @@ void DependencyManagerMain::showModuleSettingsDialog(const QString &moduleName)
 {
     if (moduleSettingsDialog != nullptr)
     {
-        if (moduleSettingsDialog->loadUi("D:\\YandexDisk\\FrozenTeam\\CPPDependenciesManager" +
+        if (moduleSettingsDialog->loadUi(settingsDialog->getScriptPath() +
                                          modulesPathSuffix + moduleName))
         {
             moduleSettingsDialog->show();
+
         }
     } else {
         QMessageBox::critical(this, "Error showing ModuleSettingsDialog!", "Not created dialog. ModuleSettingsDialog == nullptr.");
+    }
+}
+
+void DependencyManagerMain::reloadModules()
+{
+    availableListModel.clear();
+    loadModulesList(settingsDialog->getScriptPath() + modulesPathSuffix);
+    qDebug() << settingsDialog->getScriptPath() + modulesPathSuffix;
+
+    for (const QString &itemStr : availableList)
+    {
+        QStandardItem *item = new QStandardItem(itemStr);
+        availableListModel.appendRow(item);
     }
 }
 
@@ -96,6 +105,7 @@ void DependencyManagerMain::on_actionAbout_Qt_triggered()
 
 void DependencyManagerMain::loadModulesList(const QString &path)
 {
+    modulesList.clear();
     availableList.clear();
     usedList.clear();
 

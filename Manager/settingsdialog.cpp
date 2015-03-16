@@ -207,6 +207,35 @@ bool SettingsDialog::findPath(const QString &execName, const QStringList &params
 
     return retValue;
 }
+QString SettingsDialog::getScriptPath() const
+{
+    return scriptPath;
+}
+
+QString SettingsDialog::getOutputPath() const
+{
+    return outputPath;
+}
+
+QString SettingsDialog::getArchitecture() const
+{
+    return architecture;
+}
+
+QString SettingsDialog::getVsVersion() const
+{
+    return vsVersion;
+}
+
+QString SettingsDialog::getVsPath() const
+{
+    return vsPath;
+}
+
+QString SettingsDialog::getPythonPath() const
+{
+    return pythonPath;
+}
 
 void SettingsDialog::showEvent(QShowEvent *)
 {
@@ -228,6 +257,8 @@ void SettingsDialog::on_pythonBrowse_clicked()
 
 void SettingsDialog::on_okPushButton_clicked()
 {
+    qDebug() << "Emitted";
+
     pythonPath = ui->pythonPathLine->text();
     vsPath = ui->vsPathLine->text();
     architecture = ui->archComboBox->currentText();
@@ -240,6 +271,9 @@ void SettingsDialog::on_okPushButton_clicked()
     settings->setValue("VSVersion", vsVersion);
     settings->setValue("Architecture", architecture);
     settings->setValue("OutputPath", outputPath);
+
+    emit settingsChanged();
+
     close();
 }
 

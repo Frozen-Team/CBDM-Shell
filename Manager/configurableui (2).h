@@ -9,9 +9,11 @@
 #include <QLayout>
 #include <QLabel>
 #include <QHBoxLayout>
-#include <QSettings>
 
 #include "dialogutils.h"
+
+// It is not necessary to delete ui components inside each componet. With addWidget method
+// component's parent set and destroys with parent.
 
 class BaseConfComponent : public QWidget
 {
@@ -19,7 +21,6 @@ class BaseConfComponent : public QWidget
 public:
     explicit BaseConfComponent(const QString &componentName, QWidget *parent = 0);
 
-    //const QLayout* getLayout() { /*return layout();*/ }
     const QVariant& getValue() { return value; }
     const QString& getComponentName() { return this->parameterName; }
 
@@ -30,7 +31,7 @@ public slots:
 
 
 public:
-    QHBoxLayout layout1;
+    QHBoxLayout layout;
     QVariant value;
     QString parameterName;
 };
@@ -123,7 +124,6 @@ public:
     ~ConfUiManager();
 
 public slots:
-    void constructUi(const QSettings* iniConf);
     void addComponent(QString &name, const QMap<QString, QVariant> &parameters);
     void deleteComponent(const QString &componentName);
     void deleteUi();
