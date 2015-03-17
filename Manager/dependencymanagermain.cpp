@@ -20,6 +20,7 @@ const QString modulesPathSuffix = "\\core\\modules\\";
 DependencyManagerMain::DependencyManagerMain(QWidget *parent) :
     ui(new Ui::DependencyManagerMain)
 {
+    Q_UNUSED(parent)
     ui->setupUi(this);
 
     moduleSettingsDialog = new ModuleSettings(this);

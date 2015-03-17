@@ -33,197 +33,283 @@
 //     image: url(:/images/checkbox_indeterminate_pressed.png);
 // }
 @aa: ~":!enabled";
+.default_font() {
+    font-size: 15pt;
+    font-family: "ONRAMP";
+    color: @menu_bar_font_color;
+}
+.default_input() {
+    .default_font();
+    min-height: 32px;
+    border: 1px solid @input_border_color;
+    background-color: @input_background;
+    selection-background-color: ltblue;
+}
+QFileDialog {
+    .default_input();
+    background-color: @background;
+}
 QMainWindow {
     background: @background;
     width: 10px;
     height: 10px;
-    .default_font() {
-        font-size: 15pt;
-        font-family: "ONRAMP";
-        color: @menu_bar_font_color;
+    .default_font();
+}
+QPushButton {
+    .default_font();
+    border: none;
+    min-width: 91;
+    min-height: 32;
+    background-color: @def_btn_color;
+    &:hover {
+        background-color: @hovered_btn_color;
     }
-    QPushButton {
-        .default_font();
-        border: none;
-        min-width: 91;
-        min-height: 31;
+    &:pressed {
+        background-color: @pressed_btn_color;
+    }
+}
+QCheckBox {
+    .default_font();
+    min-height: 32px;
+    &::indicator {
+        width: 32px;
+        height: 32px;
+        &:unchecked {
+            image: url(:/res/Resources/UI/QCheckBox/checkbox_32.png);
+            &:hover {
+                image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
+            }
+            &:pressed {
+                image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
+            }
+            &:disabled {
+                image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
+            }
+        }
+        &:checked {
+            image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_32.png);
+            &:hover {
+                image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
+            }
+            &:pressed {
+                image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
+            }
+            &:disabled {
+                image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
+            }
+        }
+    }
+}
+QLineEdit, QComboBox {
+    .default_input();
+    border: none;
+}
+QSplitter::handle {
+    &:horizontal {
+        width: 2px;
+        background-color: @background;
+    }
+    &:vertical {
+        width: 2px;
+        background-color: @background;
+    }
+}
+QComboBox {
+    .default_input();
+    border: none;
+    &::on {
+        background-color: @gray2;
+    }
+    &::down-arrow {
         background-color: @def_btn_color;
-        &:hover {
+        border: none;
+        height: 32px;
+        width: 17px;
+        &::hover {
             background-color: @hovered_btn_color;
         }
-        &:pressed {
+        &::pressed {
             background-color: @pressed_btn_color;
         }
     }
-    QCheckBox {
-        .default_font();
-        min-height: 36px;
-        &::indicator {
-            width: 32px;
-            height: 32px;
-            &:unchecked {
-                image: url(:/res/Resources/UI/QCheckBox/checkbox_32.png);
-                &:hover {
-                    image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
-                }
-                &:pressed {
-                    image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
-                }
-                &:disabled {
-                    image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
-                }
-            }
-            &:checked {
-                image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_32.png);
-                &:hover {
-                    image: url(:/res/Resources/UI/QCheckBox/checkbox_checked_hovered_32.png);
-                }
-                &:pressed {
-                    image: url(:/res/Resources/UI/QCheckBox/checkbox_hovered_32.png);
-                }
-                &:disabled {
-                    image: url(:/res/Resources/UI/QCheckBox/disabled_32.png);
-                }
-            }
-        }
+    &::drop-down {
+        //width: 17px;
+        border: 10px;
     }
-    .default_input() {
-        .default_font();
-        min-height: 31px;
-        border: 1px solid @input_border_color;
-        background-color: @input_background;
-        selection-background-color: ltblue;
+    QAbstractItemView {
+        border: 1px solid @menu_bar_item_border_color;
+        selection-background-color: @hovered_btn_color;
     }
-    QLineEdit, QComboBox {
-        .default_input();
+}
+.item () {
+    .default_font();
+    padding: 3px 10px;
+    background-color: @menu_bar_color;
+    &:selected {
+        //border-top: 1px solid @menu_bar_item_border_color;
+        //border-bottom: 1px solid @menu_bar_item_border_color;
+        background-color: @menu_bar_item_hovered_color;
     }
-    QSplitter::handle {
-        &:horizontal {
-            width: 2px;
-            background-color: @background;
-        }
-        &:vertical {
-            width: 2px;
-            background-color: @background;
-        }
+}
+QMenuBar {
+    .default_font();
+    .item ();
+    border: 2px solid @menu_bar_color;
+    background-color: @menu_bar_color;
+    &:pressed {
+        background-color: @pressed_btn_color;
+        border: 1px solid @hovered_btn_color;
     }
-    QFileDialog {
-        .default_font();
-        background-color: @background;
-    }
-    QComboBox {
-        .default_input();
-        border: none;
-        &::on {
-            background-color: @gray2;
-        }
-        &::down-arrow {
-            background-color: @def_btn_color;
-            border: none;
-            height: 31px;
-            width: 17px;
-            &::hover {
-                background-color: @hovered_btn_color;
-            }
-            &::pressed {
-                background-color: @pressed_btn_color;
-            }
-        }
-        &::drop-down {
-            //width: 17px;
-            border: 10px;
-        }
-        QAbstractItemView {
-            border: 1px solid @menu_bar_item_border_color;
-            selection-background-color: @hovered_btn_color;
-        }
-    }
-    QMenuBar {
-        .default_font();
-        .item () {
-            .default_font();
-            padding: 3px 10px;
-            background-color: @menu_bar_color;
-            &:selected {
-                //border-top: 1px solid @menu_bar_item_border_color;
-                //border-bottom: 1px solid @menu_bar_item_border_color;
-                background-color: @menu_bar_item_hovered_color;
-            }
-        }
-        border: 2px solid @menu_bar_color;
-        background-color: @menu_bar_color;
+    &::item {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        margin-top: 3px;
+        .item();
         &:pressed {
             background-color: @pressed_btn_color;
             border: 1px solid @hovered_btn_color;
         }
-        &::item {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            margin-top: 3px;
-            .item();
-            &:pressed {
-                background-color: @pressed_btn_color;
-                border: 1px solid @hovered_btn_color;
-            }
-        }
-        QMenu {
-            .default_font();
-            border: 1px solid @menu_bar_item_border_color;
-            background-color: @menu_bar_color;
-            &::item {
-                .item();
-            }
-            &::separator {
-                height: 2px;
-                background-color: linear-gradient(to top, @menu_bar_separator_grad_from, @menu_bar_separator_grad_to);
-                margin: 1px 5px 0 5px;
-            }
-        }
     }
-    QListView {
+}
+QMenu {
+    .default_font();
+    border: 1px solid @menu_bar_item_border_color;
+    background-color: @menu_bar_color;
+    &::item {
+        .item();
+    }
+    &::separator {
+        height: 2px;
+        background-color: linear-gradient(to top, @menu_bar_separator_grad_from, @menu_bar_separator_grad_to);
+        margin: 1px 5px 0 5px;
+    }
+}
+QListView {
+    outline: none;
+    .default_font();
+    border: 1px solid @input_border_color;
+    background-color: @input_background;
+    &::item {
+        color: @input_text_color;
         outline: none;
-        .default_font();
-        border: 1px solid @input_border_color;
+        &:hover {
+            background-color: @background;
+        }
+        &:focus {
+            border: none;
+            background-color: @menu_bar_color;
+        }
+        &:selected {
+            border: none;
+            background-color: @menu_bar_color;
+        }
+    }
+    &::separator {
+        height: 2px;
+        width: 2px;
+        background-color: red;
+        margin: 1px 5px 0 5px;
+    }
+}
+QColumnView {
+    outline: none;
+    .default_input();
+    border: none;
+    background-color: @input_background;
+    &::item {
+        color: @input_text_color;
+        outline: none;
         background-color: @input_background;
-        &::item {
-            color: @input_text_color;
-            border-right: 1px solid @input_border_color;
-            outline: none;
-            &:hover {
-                background-color: @background;
-            }
-            &:focus {
-                border: none;
-                border-right: 1px solid @input_border_color;
-                background-color: @menu_bar_color;
-            }
+        &:hover {
+            background-color: @background;
+        }
+        &:selected {
+            background-color: @menu_bar_color;
         }
     }
-    QMessageBox {
-        background-color: @background;
-    }
-    QScrollBar {
-        .default_font();
-        background-color: @background;
-        background-image: none;
-        width: 15px;
-        &::add-page {
-            background: @background;
+}
+QHeaderView {
+    .default_font();
+    background-color: @menu_bar_color;
+    
+    border-bottom: 2px solid @background;
+    &::section {
+        border: none;
+        background-color: @menu_bar_color;
+        border-right: 1px solid @background;
+        &:horizontal {
+            height: 32px;
         }
-        &::sub-page {
-            background: @background;
-        }
-        &::handle {
-            background: @menu_bar_color;
+        &:vertical {
+            width: 32px;
         }
     }
-    QLabel {
-        .default_font();
-        background-color: @background;
+}
+QTreeView {
+    outline: none;
+    .default_input();
+    border: none;
+    background-color: @input_background;
+    &::item {
+        color: @input_text_color;
+        outline: none;
+        background-color: @input_background;
+        &:hover {
+            background-color: @background;
+        }
+        &:selected {
+            background-color: @menu_bar_color;
+        }
     }
-    QTextBrowser {
-        .default_font();
-        .default_input();
+}
+QToolButton {
+    .default_font();
+    border: none;
+    background-color: @background;
+    &:hover {
+        background-color: @hovered_btn_color;
     }
+    &:pressed {
+        background-color: @hovered_btn_color;
+    }
+}
+QMessageBox {
+    background-color: @background;
+}
+QScrollBar {
+    .default_font();
+    background-color: @background;
+    background-image: none;
+    border-left: 1px solid @input_border_color;
+    width: 15px;
+    &::add-line {
+        border: 0px solid @input_border_color;
+        //background: @background;
+        color: red;
+    }
+    &::sub-line {
+        border: 0px solid @input_border_color;
+        //background: @background;
+        color: red;
+    }
+    &::add-page {
+        border: 0px solid @input_border_color;
+        background: @background;
+    }
+    &::sub-page {
+        border: 0px solid @input_border_color;
+        background: @background;
+    }
+    &::handle {
+        border: 0px solid @input_border_color;
+        background: @menu_bar_color;
+    }
+}
+QLabel {
+    .default_font();
+    background-color: @background;
+}
+QTextBrowser {
+    .default_input();
 }

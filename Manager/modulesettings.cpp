@@ -33,7 +33,7 @@ bool ModuleSettings::loadUi(const QString &modulePath)
         return false;
     }
 
-    uiManager.constructUi(settings);
+    uiManager.constructUi(&settings);
     ui->verticalLayout->addLayout(uiManager.getLayout());
 
     return true;
@@ -51,6 +51,6 @@ void ModuleSettings::makeUi()
 
 void ModuleSettings::on_okPushButton_clicked()
 {
-    // TODO Add functionality
+    uiManager.saveParameters();
     close();
 }

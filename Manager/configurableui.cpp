@@ -27,15 +27,34 @@ ConfCheckBox::ConfCheckBox(QWidget *parent, const QString &name, const QString &
     connect(checkBox, SIGNAL(toggled(bool)), this, SLOT(checkBoxTriggered(bool)));
 
     spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
-    layout1.addWidget(checkBox);
-    layout1.addSpacerItem(spacer);
-    setLayout(&layout1);
+    getLayout()->addWidget(checkBox);
+    getLayout()->addSpacerItem(spacer);
+    setLayout(getLayout());
 }
 
 void ConfCheckBox::checkBoxTriggered(bool value)
 {
     setValue(QVariant(value));
 }
+
+QString ConfCheckBox::getName()
+{
+    if (checkBox)
+    {
+        return checkBox->objectName();
+    } else
+    {
+        return QString("DefaultCheckBox");
+    }
+}
+
+//QString ConfCheckBox::getName()
+//{
+//    if (checkBox)
+//    {
+//        return checkBox->objectName();
+//    }
+//}
 
 ConfCheckBox::~ConfCheckBox()
 {
@@ -55,13 +74,24 @@ ConfLineEdit::ConfLineEdit(QWidget *parent, const QString &name, const QString &
     connect(lineEdit, SIGNAL(textChanged(QString)), this, SLOT(lineEditTextChanged(QString)));
 
     lineEdit->setPlaceholderText(placeholderText);
-    layout1.addWidget(lineEdit);
-    setLayout(&layout1);
+    getLayout()->addWidget(lineEdit);
+    setLayout(getLayout());
 }
 
 void ConfLineEdit::lineEditTextChanged(QString text)
 {
     setValue(QVariant(text));
+}
+
+QString ConfLineEdit::getName()
+{
+    if (lineEdit)
+    {
+        return lineEdit->objectName();
+    } else
+    {
+        return QString("DefaultLineEdit");
+    }
 }
 
 ConfLineEdit::~ConfLineEdit()
@@ -84,9 +114,9 @@ ConfDirBrowser::ConfDirBrowser(QWidget *parent, const QString &name, const QStri
 
     connect(pushButton, SIGNAL(clicked()), this, SLOT(pushButtonClicked()));
 
-    layout1.addWidget(lineEdit);
-    layout1.addWidget(pushButton);
-    setLayout(&layout1);
+    getLayout()->addWidget(lineEdit);
+    getLayout()->addWidget(pushButton);
+    setLayout(getLayout());
 }
 
 void ConfDirBrowser::pushButtonClicked()
@@ -96,6 +126,17 @@ void ConfDirBrowser::pushButtonClicked()
     {
         lineEdit->setText(path);
         setValue(QVariant(path));
+    }
+}
+
+QString ConfDirBrowser::getName()
+{
+    if(lineEdit)
+    {
+        return lineEdit->objectName();
+    } else
+    {
+        return QString("DefaultLineEdit");
     }
 }
 
@@ -115,13 +156,18 @@ ConfLabel::ConfLabel(QWidget *parent, const QString &name, const QVariant &text,
     }
     spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
 
-    layout1.addWidget(label);
-    layout1.addSpacerItem(spacer);
-    setLayout(&layout1);
+    getLayout()->addWidget(label);
+    getLayout()->addSpacerItem(spacer);
+    setLayout(getLayout());
 }
 
 ConfLabel::~ConfLabel()
 {
+}
+
+QString ConfLabel::getName()
+{
+    return QString("DefaultLabel");
 }
 
 QMap<QString, int> uiConsts = { {"label", 0}, {"lineedit", 1}, {"dirbrowser", 2}, {"checkbox", 3} };
@@ -139,8 +185,10 @@ ConfUiManager::~ConfUiManager()
 
 QMap<QString, QStringList> uiParams;
 
-void ConfUiManager::constructUi(const QSettings *iniConf)
+void ConfUiManager::constructUi(QSettings **iniConf)
 {
+    this->iniConf = iniConf;
+
     uiParams.clear();
     if (layout)
     {
@@ -165,7 +213,7 @@ void ConfUiManager::constructUi(const QSettings *iniConf)
 
 
 
-    for (const QString &key : iniConf->allKeys())
+    for (const QString &key : (*iniConf)->allKeys())
     {
         QStringList splitValue = key.split("/");
         if (splitValue.size() <= 1)
@@ -189,7 +237,7 @@ void ConfUiManager::constructUi(const QSettings *iniConf)
         QMap<QString, QVariant> component;
         for (auto &valueKey : uiParams[key])
         {
-            QString value = iniConf->value(key + "/" + valueKey).toString();
+            QString value = (*iniConf)->value(key + "/" + valueKey).toString();
             component[valueKey] = value;
         }
         addComponent(key, component);
@@ -244,6 +292,27 @@ void ConfUiManager::deleteComponent(const QString &componentName)
 
 }
 
+void ConfUiManager::saveParameters()
+{
+    if (*iniConf != nullptr)
+    {
+        for (const auto component : uiComponents)
+        {
+            if (component->hasValue())
+            {
+                QString compName = component->getName();
+                QString paramName = component->getParameterName();
+                QString value = component->getValue().toString();
+                qDebug() << "Name: " + compName;
+                qDebug() << "Value: " + value;
+                {
+                    (*iniConf)->setValue(compName + "/" + "Value", value);
+                }
+            }
+        }
+    }
+}
+
 void ConfUiManager::deleteUi()
 {
 
@@ -267,3 +336,18 @@ BaseConfComponent::BaseConfComponent(const QString &componentName, QWidget *pare
 {
     this->parameterName = componentName;
 }
+QHBoxLayout *BaseConfComponent::getLayout()
+{
+    return &layout1;
+}
+
+QString BaseConfComponent::getParameterName() const
+{
+    return parameterName;
+}
+
+void BaseConfComponent::setParameterName(const QString &value)
+{
+    parameterName = value;
+}
+
