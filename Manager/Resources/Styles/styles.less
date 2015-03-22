@@ -32,29 +32,52 @@
 // QCheckBox::indicator:indeterminate:pressed {
 //     image: url(:/images/checkbox_indeterminate_pressed.png);
 // }
-@aa: ~":!enabled";
+@not_active: ~":!active";
 .default_font() {
-    font-size: 15pt;
-    font-family: "ONRAMP";
+    font-family: "Open Sans";
     color: @menu_bar_font_color;
 }
+
 .default_input() {
     .default_font();
-    min-height: 32px;
     border: 1px solid @input_border_color;
     background-color: @input_background;
     selection-background-color: ltblue;
 }
+
 QFileDialog {
     .default_input();
     background-color: @background;
 }
-QMainWindow {
+
+QMainWindow,
+QDialog {
     background: @background;
-    width: 10px;
-    height: 10px;
     .default_font();
 }
+
+QTabWidget {
+    &::pane {
+        .default_input();
+        background: @background;
+    }
+}
+
+QTabBar {
+    background-color: @def_btn_color;
+    .default_input();
+    &::tab-bar {
+        left: 5px;
+    }
+    &::tab {
+        background: @def_btn_color;
+        border: 1px solid @input_border_color;
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 2px;
+    }
+}
+
 QPushButton {
     .default_font();
     border: none;
@@ -68,6 +91,7 @@ QPushButton {
         background-color: @pressed_btn_color;
     }
 }
+
 QCheckBox {
     .default_font();
     min-height: 32px;
@@ -100,10 +124,14 @@ QCheckBox {
         }
     }
 }
-QLineEdit, QComboBox {
+
+QLineEdit,
+QComboBox {
     .default_input();
+    min-height: 32px;
     border: none;
 }
+
 QSplitter::handle {
     &:horizontal {
         width: 2px;
@@ -114,8 +142,10 @@ QSplitter::handle {
         background-color: @background;
     }
 }
+
 QComboBox {
     .default_input();
+    min-height: 32px;
     border: none;
     &::on {
         background-color: @gray2;
@@ -141,6 +171,7 @@ QComboBox {
         selection-background-color: @hovered_btn_color;
     }
 }
+
 .item () {
     .default_font();
     padding: 3px 10px;
@@ -151,6 +182,7 @@ QComboBox {
         background-color: @menu_bar_item_hovered_color;
     }
 }
+
 QMenuBar {
     .default_font();
     .item ();
@@ -172,6 +204,7 @@ QMenuBar {
         }
     }
 }
+
 QMenu {
     .default_font();
     border: 1px solid @menu_bar_item_border_color;
@@ -185,6 +218,7 @@ QMenu {
         margin: 1px 5px 0 5px;
     }
 }
+
 QListView {
     outline: none;
     .default_font();
@@ -202,7 +236,12 @@ QListView {
         }
         &:selected {
             border: none;
-            background-color: @menu_bar_color;
+            &:active {
+                background-color: @menu_bar_color;
+            }
+            // @not_active {
+            //     background-color: @menu_bar_color;
+            // }
         }
     }
     &::separator {
@@ -212,6 +251,7 @@ QListView {
         margin: 1px 5px 0 5px;
     }
 }
+
 QColumnView {
     outline: none;
     .default_input();
@@ -229,10 +269,10 @@ QColumnView {
         }
     }
 }
+
 QHeaderView {
     .default_font();
     background-color: @menu_bar_color;
-    
     border-bottom: 2px solid @background;
     &::section {
         border: none;
@@ -246,6 +286,7 @@ QHeaderView {
         }
     }
 }
+
 QTreeView {
     outline: none;
     .default_input();
@@ -263,6 +304,7 @@ QTreeView {
         }
     }
 }
+
 QToolButton {
     .default_font();
     border: none;
@@ -274,9 +316,11 @@ QToolButton {
         background-color: @hovered_btn_color;
     }
 }
+
 QMessageBox {
     background-color: @background;
 }
+
 QScrollBar {
     .default_font();
     background-color: @background;
@@ -306,10 +350,12 @@ QScrollBar {
         background: @menu_bar_color;
     }
 }
+
 QLabel {
     .default_font();
     background-color: @background;
 }
+
 QTextBrowser {
     .default_input();
 }

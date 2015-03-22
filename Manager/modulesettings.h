@@ -19,13 +19,14 @@ public:
     bool loadUi(const QString &modulePath);
     ~ModuleSettings();
 
-
 private:
     Ui::ModuleSettings *ui;
 
+public slots:
+    bool getModuleValues(const QString &modulePath, QMap<QString, QVariant> *valuesMap);
+
 private slots:
-    void makeUi();
-    void on_okPushButton_clicked();
+    void saveAndClose();
 
 private:
     QSettings* settings;

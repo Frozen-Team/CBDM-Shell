@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/res">
-        <file>Resources/ONRAMP.ttf</file>
+        <file>Resources/OpenSans-Bold.ttf</file>
         <file>Resources/32.png</file>
         <file>Resources/256.png</file>
         <file>Resources/logo_white_16.png</file>

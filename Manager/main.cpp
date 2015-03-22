@@ -11,38 +11,9 @@
 
 int main(int argc, char *argv[])
 {
-
-
     QApplication a(argc, argv);
     DependencyManagerMain w;
     w.show();
-
-//    QMessageBox::information(nullptr, "Hello", argc + "");
-
-//    for (int i = 0; i < argc; ++i)
-//    {
-//        QMessageBox::critical(nullptr, "Hello", argv[i]);
-//        qDebug() << argv[i];
-//    }
-
-    //QDir dir(QDir::currentPath() + "/debug/Styles/");
-    //QStringList filter("*.css");
-    //QFileInfoList stylesFilesList = dir.entryInfoList(filter, QDir::Files);
-
-//    for (QFileInfo &fileInfo : stylesFilesList)
-//    {
-//        QFile file(fileInfo.filePath());
-//        if (file.open(QFile::ReadOnly))
-//        {
-//            QTextStream stream(&file);
-//            stylesString += stream.readAll();
-//        } else
-//        {
-//            qDebug() << "Unable read file: " << fileInfo.filePath();
-//        }
-
-//        file.close();
-//    }
 
     QFile stylesFile(":/res/Resources/Styles/styles.css");
     if (stylesFile.open(QFile::ReadOnly))
@@ -55,8 +26,7 @@ int main(int argc, char *argv[])
     }
 
     int fontID(-1);
-
-    QFile res(":/res/Resources/ONRAMP.ttf");
+    QFile res(":/res/Resources/OpenSans-Bold.ttf");
     if (res.open(QIODevice::ReadOnly) == false) {
         QMessageBox::warning(0, "Application", "Cannot open device for reading font.");
     } else {
@@ -65,7 +35,7 @@ int main(int argc, char *argv[])
             QMessageBox::warning(0, "Application", "Cannot read font");
         }
     }
-    a.setFont(QFont("ONRANP", 13));
+    QApplication::setFont(QFont("Open Sans", 10));
 
     return a.exec();
 }

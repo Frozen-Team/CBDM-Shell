@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>561</width>
-    <height>268</height>
+    <width>487</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,21 +15,8 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="2" column="3">
-     <widget class="QPushButton" name="cancelPushButton">
+    <item row="2" column="2">
+     <widget class="QPushButton" name="okPushButton">
       <property name="minimumSize">
        <size>
         <width>91</width>
@@ -37,29 +24,76 @@
        </size>
       </property>
       <property name="text">
-       <string>Cancel</string>
+       <string>OK</string>
       </property>
      </widget>
     </item>
+    <item row="1" column="2">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item row="0" column="0" colspan="4">
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="1">
-       <widget class="QComboBox" name="archComboBox">
+      <item row="2" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>CMake version required:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="cmakeLineEdit">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="inputMask">
+           <string>0.0.0</string>
+          </property>
+          <property name="text">
+           <string>3.2.1</string>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLineEdit" name="projectLine">
         <property name="minimumSize">
          <size>
-          <width>91</width>
-          <height>31</height>
+          <width>0</width>
+          <height>32</height>
          </size>
         </property>
-        <property name="toolTip">
-         <string>Architecture</string>
-        </property>
-        <property name="currentText">
-         <string/>
+        <property name="placeholderText">
+         <string>Project name</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="1" column="0" colspan="2">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
        <widget class="QLineEdit" name="vsPathLine">
         <property name="minimumSize">
          <size>
@@ -75,7 +109,23 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="6" column="1">
+       <widget class="QComboBox" name="archComboBox">
+        <property name="minimumSize">
+         <size>
+          <width>91</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Architecture</string>
+        </property>
+        <property name="currentText">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
        <widget class="QLineEdit" name="scriptPathLine">
         <property name="minimumSize">
          <size>
@@ -88,49 +138,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="scriptBrowse">
-        <property name="minimumSize">
-         <size>
-          <width>91</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLineEdit" name="pythonPathLine">
-        <property name="minimumSize">
-         <size>
-          <width>81</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Python version must be 3.0 and higher</string>
-        </property>
-        <property name="placeholderText">
-         <string>Python path</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pythonBrowse">
-        <property name="minimumSize">
-         <size>
-          <width>91</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
+      <item row="5" column="1">
        <widget class="QPushButton" name="vsBrowse">
         <property name="minimumSize">
          <size>
@@ -144,6 +152,22 @@
        </widget>
       </item>
       <item row="4" column="0">
+       <widget class="QLineEdit" name="pythonPathLine">
+        <property name="minimumSize">
+         <size>
+          <width>81</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Python version must be 3.0 and higher</string>
+        </property>
+        <property name="placeholderText">
+         <string>Python path</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
        <widget class="QLineEdit" name="outputPathLine">
         <property name="minimumSize">
          <size>
@@ -156,11 +180,11 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="outputBrowse">
+      <item row="7" column="1">
+       <widget class="QPushButton" name="scriptBrowse">
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>91</width>
           <height>31</height>
          </size>
         </property>
@@ -169,7 +193,20 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="4" column="1">
+       <widget class="QPushButton" name="pythonBrowse">
+        <property name="minimumSize">
+         <size>
+          <width>91</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
@@ -200,10 +237,62 @@
         </item>
        </layout>
       </item>
+      <item row="8" column="1">
+       <widget class="QPushButton" name="outputBrowse">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLineEdit" name="buildPathLine">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Build path</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QPushButton" name="buildPathBrowse">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
-    <item row="2" column="2">
-     <widget class="QPushButton" name="okPushButton">
+    <item row="2" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="3">
+     <widget class="QPushButton" name="cancelPushButton">
       <property name="minimumSize">
        <size>
         <width>91</width>
@@ -211,22 +300,9 @@
        </size>
       </property>
       <property name="text">
-       <string>OK</string>
+       <string>Cancel</string>
       </property>
      </widget>
-    </item>
-    <item row="1" column="2">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>
@@ -235,23 +311,22 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>561</width>
-     <height>21</height>
+     <width>487</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
+      <x>380</x>
+      <y>99</y>
       <width>136</width>
-      <height>115</height>
+      <height>92</height>
      </rect>
     </property>
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionLoad_defaults"/>
     <addaction name="actionSave_changes"/>
     <addaction name="actionExit"/>
    </widget>

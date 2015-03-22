@@ -29,8 +29,8 @@ HEADERS  += \
     settingsdialog.h \
     helpdialog.h \
     modulesettings.h \
-    dialogutils.h \
-    configurableui.h
+    configurableui.h \
+    qtutils.h
 
 DISTFILES += \
     resources.rc \

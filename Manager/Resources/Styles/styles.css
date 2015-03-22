@@ -1,24 +1,47 @@
 QFileDialog {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
-  min-height: 32px;
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   selection-background-color: ltblue;
   background-color: #2e2e2e;
 }
-QMainWindow {
+QMainWindow,
+QDialog {
   background: #2e2e2e;
-  width: 10px;
-  height: 10px;
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
 }
+QTabWidget::pane {
+  font-family: "Open Sans";
+  color: #c8c8c8;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
+  background: #2e2e2e;
+}
+QTabBar {
+  background-color: #525252;
+  font-family: "Open Sans";
+  color: #c8c8c8;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  selection-background-color: ltblue;
+}
+QTabBar::tab-bar {
+  left: 5px;
+  /* move to the right by 5px */
+
+}
+QTabBar::tab {
+  background: #525252;
+  border: 1px solid #1f1f1f;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 2px;
+}
 QPushButton {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   border: none;
   min-width: 91;
@@ -32,8 +55,7 @@ QPushButton:pressed {
   background-color: #333333;
 }
 QCheckBox {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   min-height: 32px;
 }
@@ -67,13 +89,12 @@ QCheckBox::indicator:checked:disabled {
 }
 QLineEdit,
 QComboBox {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
-  min-height: 32px;
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   selection-background-color: ltblue;
+  min-height: 32px;
   border: none;
 }
 QSplitter::handle:horizontal {
@@ -85,13 +106,12 @@ QSplitter::handle:vertical {
   background-color: #2e2e2e;
 }
 QComboBox {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
-  min-height: 32px;
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   selection-background-color: ltblue;
+  min-height: 32px;
   border: none;
 }
 QComboBox::on {
@@ -117,8 +137,7 @@ QComboBox QAbstractItemView {
   selection-background-color: #3e3e3e;
 }
 QMenuBar {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   padding: 3px 10px;
   background-color: #636363;
@@ -136,8 +155,7 @@ QMenuBar::item {
   padding: 0;
   border: 0;
   margin-top: 3px;
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   padding: 3px 10px;
   background-color: #636363;
@@ -150,15 +168,13 @@ QMenuBar::item:pressed {
   border: 1px solid #3e3e3e;
 }
 QMenu {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   border: 1px solid #26282a;
   background-color: #636363;
 }
 QMenu::item {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   padding: 3px 10px;
   background-color: #636363;
@@ -173,8 +189,7 @@ QMenu::separator {
 }
 QListView {
   outline: none;
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
@@ -192,6 +207,8 @@ QListView::item:focus {
 }
 QListView::item:selected {
   border: none;
+}
+QListView::item:selected:active {
   background-color: #636363;
 }
 QListView::separator {
@@ -202,10 +219,8 @@ QListView::separator {
 }
 QColumnView {
   outline: none;
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
-  min-height: 32px;
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   selection-background-color: ltblue;
@@ -223,8 +238,7 @@ QColumnView::item:selected {
   background-color: #636363;
 }
 QHeaderView {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   background-color: #636363;
   border-bottom: 2px solid #2e2e2e;
@@ -242,10 +256,8 @@ QHeaderView::section:vertical {
 }
 QTreeView {
   outline: none;
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
-  min-height: 32px;
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   selection-background-color: ltblue;
@@ -263,8 +275,7 @@ QTreeView::item:selected {
   background-color: #636363;
 }
 QToolButton {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   border: none;
   background-color: #2e2e2e;
@@ -279,8 +290,7 @@ QMessageBox {
   background-color: #2e2e2e;
 }
 QScrollBar {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   background-color: #2e2e2e;
   background-image: none;
@@ -308,16 +318,13 @@ QScrollBar::handle {
   background: #636363;
 }
 QLabel {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
   background-color: #2e2e2e;
 }
 QTextBrowser {
-  font-size: 15pt;
-  font-family: "ONRAMP";
+  font-family: "Open Sans";
   color: #c8c8c8;
-  min-height: 32px;
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   selection-background-color: ltblue;

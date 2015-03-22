@@ -9,7 +9,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QMap>
-#include "dialogutils.h"
+
+#include "qtutils.h"
 
 const QMap<QString, QString> AVAILABLE_ARCHS = {{"x86", "x86"}, {"x64", "x64"}}; // for reason if different values of archs
 
@@ -17,6 +18,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog), QMainWindow(parent)
 {
     ui->setupUi(this);
+    connect(ui->cancelPushButton, SIGNAL(clicked()), this, SLOT(close()));
 
     needToShow = false;
 
@@ -57,19 +59,17 @@ SettingsDialog::~SettingsDialog()
 //                                                };
 
 const QMap<int, QString> vsVersionMap = {
-    {15, "Microsoft Visual Studio 2008"}, // Is not reccomended!
     {16, "Microsoft Visual Studio 2010"},
     {17, "Microsoft Visual Studio 2012"},
     {18, "Microsoft Visual Studio 2013"}};
 
 void SettingsDialog::loadSettings()
 {
-    QString path;
-
+    needToShow = false;
     // Check for python
-    if ((settings->contains("PythonPath")) && ((path = settings->value("PythonPath").toString()) != QString("")) && isExists(path))
+    if ((settings->contains("PythonPath")) && ((pythonPath = settings->value("PythonPath").toString()) != QString("")) && isExists(pythonPath))
     {
-        ui->pythonPathLine->setText(path);
+        ui->pythonPathLine->setText(pythonPath);
     } else
     {
         QMap<QString, QString> pathsMap;
@@ -84,17 +84,16 @@ void SettingsDialog::loadSettings()
     }
 
     // Check for Visual Studio
-    QString vsVersionStr;
-    if ((settings->contains("VSPath")) && ((path = settings->value("VSPath").toString()) != QString("")) && isExists(path) &&
-            ((settings->contains("VSVersion")) && (vsVersionStr = settings->value("VSVersion").toString()) != QString("")))
+    if ((settings->contains("VSPath")) && ((vsPath = settings->value("VSPath").toString()) != QString("")) && isExists(vsPath) &&
+            ((settings->contains("VSVersion")) && (vsVersion = settings->value("VSVersion").toString()) != QString("")))
     {
-        ui->vsVersionLabel->setText(vsVersionStr);
-        ui->vsPathLine->setText(path);
+        ui->vsVersionLabel->setText(vsVersion);
+        ui->vsPathLine->setText(vsPath);
     } else
     {
         QMap<QString, QString> pathsMap;
         if (findPath("cl.exe", QStringList(), QRegExp("VC"),
-                     QStringList() << "Program Files (x86)\\Microsoft Visual Studio 12.0\\" << "Applications\\", "", QRegExp("((\\d+).?){3}"), pathsMap))
+                     QStringList() << "Program Files (x86)/Microsoft Visual Studio 12.0/" << "Applications/VS 2013", "", QRegExp("((\\d+).?){3}"), pathsMap))
         {
             vsPath = pathsMap.keys().last();
             QRegExp parsVSVer("\\d.");
@@ -108,11 +107,27 @@ void SettingsDialog::loadSettings()
     }
 
     // Check for architecture
-    QString arch;
-    if ((settings->contains("Architecture")) && ((arch = settings->value("Architecture").toString()) != QString("")))
+    if ((settings->contains("Architecture")) && ((architecture = settings->value("Architecture").toString()) != QString("")))
     {
-        architecture = arch;
-        ui->archComboBox->setCurrentText(arch);
+        ui->archComboBox->setCurrentText(architecture);
+    } else
+    {
+        needToShow = true;
+    }
+
+    // Check for ProjectName
+    if ((settings->contains("ProjectName")) && ((projectName = settings->value("ProjectName").toString()) != QString("")))
+    {
+        ui->projectLine->setText(projectName);
+    } else
+    {
+        needToShow = true;
+    }
+
+    // Check for Cmake version
+    if ((settings->contains("cmakeVersion")) && ((cmakeVerion = settings->value("cmakeVersion").toString()) != QString("")))
+    {
+        ui->cmakeLineEdit->setText(cmakeVerion);
     } else
     {
         needToShow = true;
@@ -120,26 +135,46 @@ void SettingsDialog::loadSettings()
 
 
     // Check for Script Path
-    //"D:\\YandexDisk\\FrozenTeam\\CPPDependenciesManager"
-    if ((settings->contains("ScriptPath")) && ((path = settings->value("ScriptPath").toString()) != QString("")) && isExists(path))
+    if ((settings->contains("ScriptPath")) && ((scriptPath = settings->value("ScriptPath").toString()) != QString("")) && isExists(scriptPath))
     {
-        scriptPath = path;
-        ui->scriptPathLine->setText(path);
+        ui->scriptPathLine->setText(scriptPath);
     } else
     {
         needToShow = true;
     }
-
 
     // Check for Output Path
-    if ((settings->contains("OutputPath")) && ((path = settings->value("OutputPath").toString()) != QString("")))
+    if ((settings->contains("OutputPath")) && ((outputPath = settings->value("OutputPath").toString()) != QString("")))
     {
-        outputPath = path;
-        ui->outputPathLine->setText(path);
+        ui->outputPathLine->setText(outputPath);
     } else
     {
         needToShow = true;
     }
+
+    // Check for Build Path
+    if ((settings->contains("BuildPath")) && ((buildPath = settings->value("BuildPath").toString()) != QString("")))
+    {
+        ui->buildPathLine->setText(buildPath);
+    } else
+    {
+        needToShow = true;
+    }
+}
+
+void SettingsDialog::clearSettings()
+{
+    ui->projectLine->setText("");
+    ui->cmakeLineEdit->setText("");
+    ui->pythonPathLine->setText("");
+    ui->vsPathLine->setText("");
+    ui->scriptPathLine->setText("");
+    ui->archComboBox->setCurrentIndex(-1);
+    ui->outputPathLine->setText("");
+    ui->buildPathLine->setText("");
+    needToShow = true;
+
+    updateSettings();
 }
 
 bool SettingsDialog::findPath(const QString &execName, const QStringList &params, QRegExp &findRegExpr, QStringList &checkFolderPathsList, const QString &postPath,
@@ -207,35 +242,6 @@ bool SettingsDialog::findPath(const QString &execName, const QStringList &params
 
     return retValue;
 }
-QString SettingsDialog::getScriptPath() const
-{
-    return scriptPath;
-}
-
-QString SettingsDialog::getOutputPath() const
-{
-    return outputPath;
-}
-
-QString SettingsDialog::getArchitecture() const
-{
-    return architecture;
-}
-
-QString SettingsDialog::getVsVersion() const
-{
-    return vsVersion;
-}
-
-QString SettingsDialog::getVsPath() const
-{
-    return vsPath;
-}
-
-QString SettingsDialog::getPythonPath() const
-{
-    return pythonPath;
-}
 
 void SettingsDialog::showEvent(QShowEvent *)
 {
@@ -255,30 +261,34 @@ void SettingsDialog::on_pythonBrowse_clicked()
     }
 }
 
-void SettingsDialog::on_okPushButton_clicked()
+void SettingsDialog::updateSettings()
 {
-    qDebug() << "Emitted";
-
+    projectName = ui->projectLine->text();
+    cmakeVerion = ui->cmakeLineEdit->text();
     pythonPath = ui->pythonPathLine->text();
+    scriptPath = ui->scriptPathLine->text();
     vsPath = ui->vsPathLine->text();
     architecture = ui->archComboBox->currentText();
     outputPath = ui->outputPathLine->text();
-    scriptPath = ui->scriptPathLine->text();
+    buildPath = ui->buildPathLine->text();
 
+    settings->setValue("ProjectName", projectName);
+    settings->setValue("cmakeVersion", cmakeVerion);
     settings->setValue("PythonPath", pythonPath);
     settings->setValue("VSPath", vsPath);
     settings->setValue("ScriptPath", scriptPath);
     settings->setValue("VSVersion", vsVersion);
     settings->setValue("Architecture", architecture);
     settings->setValue("OutputPath", outputPath);
+    settings->setValue("BuildPath", buildPath);
+}
+
+void SettingsDialog::on_okPushButton_clicked()
+{
+    updateSettings();
 
     emit settingsChanged();
 
-    close();
-}
-
-void SettingsDialog::on_cancelPushButton_clicked()
-{
     close();
 }
 
@@ -303,5 +313,13 @@ void SettingsDialog::on_outputBrowse_clicked()
     if (browseFolderTrigger(outputPath, this))
     {
         ui->outputPathLine->setText(outputPath);
+    }
+}
+
+void SettingsDialog::on_buildPathBrowse_clicked()
+{
+    if (browseFolderTrigger(buildPath, this))
+    {
+        ui->buildPathLine->setText(buildPath);
     }
 }

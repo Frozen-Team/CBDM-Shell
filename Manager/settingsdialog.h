@@ -10,7 +10,9 @@
 namespace Ui {
 class SettingsDialog;
 }
-
+/**
+ * @brief The SettingsDialog class
+ */
 class SettingsDialog : public QMainWindow
 {
     Q_OBJECT
@@ -19,22 +21,32 @@ public:
     explicit SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
 
-
-    void loadSettings();
-
     bool isNeedToShow() { return needToShow; }
 
-    QString getPythonPath() const;
-    QString getVsPath() const;
-    QString getVsVersion() const;
-    QString getArchitecture() const;
-    QString getOutputPath() const;
-    QString getScriptPath() const;
+    /**
+     * @brief getCmakeVersion
+     * @return
+     */
+    QString getCmakeVersion()   const { return this->cmakeVerion; }
+    QString getProjectName()    const { return this->projectName; }
+    QString getPythonPath()     const { return this->pythonPath; }
+    QString getVsPath()         const { return this->vsPath; }
+    QString getVsVersion()      const { return this->vsVersion; }
+    QString getArchitecture()   const { return this->architecture; }
+    QString getOutputPath()     const { return this->outputPath; }
+    QString getScriptPath()     const { return this->scriptPath; }
+    QString getBuildPath()      const { return this->buildPath; }
 
+    void updateSettings();
 signals:
     void logSignal(const QString &logMessage);
 
     void settingsChanged();
+
+public slots:
+    void loadSettings();
+
+    void clearSettings();
 
 private slots:
 
@@ -44,13 +56,13 @@ private slots:
 
     void on_okPushButton_clicked();
 
-    void on_cancelPushButton_clicked();
-
     void on_vsBrowse_clicked();
 
     void on_scriptBrowse_clicked();
 
     void on_outputBrowse_clicked();
+
+    void on_buildPathBrowse_clicked();
 
 private:
 
@@ -67,12 +79,15 @@ private:
         return QDir(path).exists();
     }
 
+    QString cmakeVerion;
+    QString projectName;
     QString pythonPath;
+    QString scriptPath;
     QString vsPath;
     QString vsVersion;
     QString architecture;
     QString outputPath;
-    QString scriptPath;
+    QString buildPath;
 
     bool needToShow;
 

@@ -11,43 +11,57 @@
 #include <QHBoxLayout>
 #include <QSettings>
 
-#include "dialogutils.h"
+#include "qtutils.h"
+
+#ifdef STRS
+#error "STRS already defined somewhere"
+#endif
+
+/**
+ *
+ */
+namespace STRS {
+
+static const QString defaultName = "DefaultName";
+static const QString defaultText = "Default Text";
+static const QString undefined   = "Undefined";
+static const QString baseElement = "BaseElement";
+
+}
 
 class BaseConfComponent : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BaseConfComponent(const QString &componentName, QWidget *parent = 0);
+    explicit BaseConfComponent(const QString &parameterName, QWidget *parent = 0);
 
-    const QVariant& getValue() { return value; }
+    enum ComponentsTypes {
+        BASE = 0, CHECK_BOX = 1, LINE_EDIT = 2, LABEL = 3, DIR_BROWSER = 4
+    };
 
-    virtual QString type() { return QString("Base element"); }
-    virtual QString getName() { return QString("UndefinedName"); }
-    virtual bool hasValue() { return false; }
+    virtual QString type()      { return STRS::baseElement; }
+    virtual QString getName()   { return STRS::undefined; }
+    virtual bool hasValue()     { return false; }
+
+    QString getParameterName() const    { return this->parameterName; }
+    QHBoxLayout *getLayout()            { return &layout; }
+    virtual const QVariant& getValue()          { return value; }
 
 public slots:
-    void setValue(const QVariant &value) { this->value = value; }
+    void setValue(const QVariant &value)        { this->value = value; }
+    void setParameterName(const QString &value) { this->parameterName = value; }
 
 protected:
-    QHBoxLayout layout1;
+    QHBoxLayout layout;
     QVariant value;
     QString parameterName;
-
-private:
-
-
-
-public:
-    QString getParameterName() const;
-    void setParameterName(const QString &value);
-    QHBoxLayout *getLayout();
 };
 
 class ConfCheckBox : public BaseConfComponent
 {
     Q_OBJECT
 public:
-    explicit ConfCheckBox(QWidget *parent = 0, const QString &name = QString("DefaultName"), const QString &text = QString("Default text"),
+    explicit ConfCheckBox(QWidget *parent = 0, const QString &name = STRS::defaultName, const QString &text = STRS::defaultText,
                           const QVariant &value = QVariant::fromValue(false), const QString& parameterName = QString("Param"));
     ~ConfCheckBox();
 
@@ -57,22 +71,17 @@ private slots:
 private:
     QCheckBox *checkBox;
     QSpacerItem *spacer;
+    QVariant boolValue;
 
     // BaseConfComponent interface
 public:
     QString type() override { return QString("CheckBox"); }
-
-//    // BaseConfComponent interface
-//public:
-//    QString getName() override;
-
-    // BaseConfComponent interface
-public:
-    QString getName();
-
-    // BaseConfComponent interface
-public:
+    QString getName() override;
     bool hasValue() override { return true; }
+
+    // BaseConfComponent interface
+public:
+    const QVariant &getValue();
 };
 
 
@@ -80,8 +89,8 @@ class ConfLineEdit : public BaseConfComponent
 {
     Q_OBJECT
 public:
-    explicit ConfLineEdit(QWidget *parent = 0, const QString &name = QString("DefaultName"), const QString &placeholderText = QString("Placeholder Text"),
-                          const QVariant &value = QVariant::fromValue(""), const QString &parameterName  = QString("Param"));
+    explicit ConfLineEdit(QWidget *parent = 0, const QString &name = STRS::defaultName, const QString &placeholderText = QString("Placeholder Text"),
+                          const QVariant &value = QVariant::fromValue(""), QString &mask = QString("*"), const QString &parameterName  = QString("Param"));
     ~ConfLineEdit();
 
 private:
@@ -93,11 +102,7 @@ private slots:
     // BaseConfComponent interface
 public:
     QString type() override { return QString("LineEdit"); }
-
-    // BaseConfComponent interface
-public:
     QString getName();
-public:
     bool hasValue() override { return true; }
 };
 
@@ -106,8 +111,8 @@ class ConfLabel : public BaseConfComponent
 {
     Q_OBJECT
 public:
-    explicit ConfLabel(QWidget *parent = 0, const QString &name = QString("DefaultName"),
-                          const QVariant &text = QVariant("Label Text"), const QString &parameterName = QString("Param"));
+    explicit ConfLabel(QWidget *parent = 0, const QString &name = STRS::defaultName,
+                          const QVariant &text = QVariant("Label Text"));
     ~ConfLabel();
 
 private:
@@ -117,11 +122,7 @@ private:
     // BaseConfComponent interface
 public:
     QString type() override { return QString("Label"); }
-
-    // BaseConfComponent interface
-public:
-    QString getName();
-public:
+    QString getName() override { return QString("DefaultLabel"); }
     bool hasValue() override { return false; }
 };
 
@@ -129,13 +130,14 @@ class ConfDirBrowser : public BaseConfComponent
 {
     Q_OBJECT
 public:
-    explicit ConfDirBrowser(QWidget *parent = 0, const QString &name = QString("DefaultName"), const QString &placeholderText = QString("Default text"),
+    explicit ConfDirBrowser(QWidget *parent = 0, const QString &name = STRS::defaultName, const QString &placeholderText = QString("Default text"),
                             const QVariant &value = QVariant::fromValue("Default path"),
-                            const QString &buttonText = QString("Browse"), const QString &parameterName1 = QString("Param"));
+                            const QString &buttonText = QString("Browse"), const QString &parameterName = QString("Param"));
     ~ConfDirBrowser();
 
 private slots:
     void pushButtonClicked();
+    void lineEditTextChanged(QString text);
 
 private:
     QLineEdit* lineEdit;
@@ -144,18 +146,13 @@ private:
     // BaseConfComponent interface
 public:
     QString type() override { return QString("DirBrowser"); }
-
-    // BaseConfComponent interface
-public:
-    QString getName();
-public:
+    QString getName() override;
     bool hasValue() override { return true; }
 };
 
 class ConfUiManager : public QWidget
 {
     Q_OBJECT
-
 public:
     explicit ConfUiManager(QWidget* parent = nullptr);
     ~ConfUiManager();
@@ -163,21 +160,20 @@ public:
 public slots:
     void constructUi(QSettings **iniConf);
     void addComponent(QString &name, const QMap<QString, QVariant> &parameters);
-    void deleteComponent(const QString &componentName);
+    void deleteComponent(const QString &name);
     void saveParameters();
-    void deleteUi();
 
     QLayout *getLayout();
-
+private:
+    QVector<BaseConfComponent *> uiComponents;
 
 public:
-    QVector<BaseConfComponent*> uiComponents;
+
     QVBoxLayout* layout;
+    const QVector<BaseConfComponent *>* getUiComponents() const { return &this->uiComponents; }
 
 private:
     QSettings **iniConf;
-
-
 };
 
 #endif // CONFIGURABLEUI_H

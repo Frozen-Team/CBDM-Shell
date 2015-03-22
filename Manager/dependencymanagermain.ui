@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>841</width>
-    <height>670</height>
+    <width>650</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="font">
@@ -20,12 +20,25 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>GUI Dependencies Manager</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="3">
+       <widget class="QPushButton" name="configureButton">
+        <property name="minimumSize">
+         <size>
+          <width>10</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Configure</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="2">
        <widget class="QListView" name="usedListView">
         <property name="verticalScrollBarPolicy">
@@ -43,7 +56,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
@@ -189,17 +202,31 @@
         </item>
        </layout>
       </item>
-      <item row="4" column="0" colspan="3">
-       <widget class="QTextBrowser" name="textBrowser">
+      <item row="1" column="0">
+       <widget class="QLabel" name="staticLabel">
+        <property name="text">
+         <string>Available modules:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="3">
+       <widget class="QTextBrowser" name="logsBrowser">
         <property name="verticalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOn</enum>
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
+      <item row="1" column="2">
+       <widget class="QLabel" name="staticLabel_1">
+        <property name="text">
+         <string>Used modules:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3">
        <widget class="QPushButton" name="generateButton">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="minimumSize">
          <size>
@@ -217,33 +244,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="staticLabel">
-        <property name="text">
-         <string>Available modules:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="staticLabel_1">
-        <property name="text">
-         <string>Used modules:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="QPushButton" name="configureButton">
-        <property name="minimumSize">
-         <size>
-          <width>10</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Configure</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
@@ -253,7 +253,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>841</width>
+     <width>650</width>
      <height>20</height>
     </rect>
    </property>
@@ -267,7 +267,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionLoad_default_settings"/>
+    <addaction name="actionStartFromScratch"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
     <addaction name="actionMinimize"/>
@@ -290,25 +290,6 @@
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuHelp"/>
-  </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>2</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>16777215</width>
-     <height>2</height>
-    </size>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QStatusBar {
-height: 1px;
-}</string>
-   </property>
   </widget>
   <action name="actionNew_project">
    <property name="text">
@@ -396,7 +377,7 @@ height: 1px;
     <string>Settings</string>
    </property>
   </action>
-  <action name="actionLoad_default_settings">
+  <action name="actionStartFromScratch">
    <property name="text">
     <string>Start from scratch</string>
    </property>

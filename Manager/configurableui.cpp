@@ -3,33 +3,65 @@
 #include <QPushButton>
 #include <QVariant>
 #include <QDebug>
+#include <QRegExpValidator>
+
+#include "qtutils.h"
+
+#ifdef STRS
+#error "STRS already defined somewhere"
+#endif
+
+namespace STRS {
+
+static const QString incorrectName = "Incorrect name";
+static const QString specifyName = "Specify appropriate name for %s component, please.";
+static const QString componentNotFound = "Component not found";
+static const QString componentNameNotFound = "Component %s not found";
+static const QString checkBox = "CheckBox";
+static const QString placeholder = "PlaceholderText";
+static const QString lineEdit = "LineEdit";
+static const QString browserLineEdit = "ConfDirBrowser.LineEdit";
+static const QString label = "Label";
+static const QString type = "Type";
+static const QString text = "Text";
+static const QString mask = "Mask";
+static const QString buttonText = "ButtonText";
+static const QString value = "Value";
+static const QString parameterName = "ParameterName";
+
+static const QString noRealization = "No realization";
+static const QString notNecessary = "Method is not necessary in v1.0.0 RC";
+
+}
 
 ConfCheckBox::ConfCheckBox(QWidget *parent, const QString &name, const QString &text,
                            const QVariant &value, const QString &componentName)
     : BaseConfComponent(componentName, parent)
 {
+    checkBox = nullptr;
     checkBox = new QCheckBox(text);
-    if (name != "")
+
+    if (checkBox)
     {
-        checkBox->setObjectName(name);
-    } else {
-        QMessageBox::warning(parent, "Incorrect name", "Specify appropriate name for CheckBox component, please.");
-    }
+        setValue(value);
+        connect(checkBox, SIGNAL(toggled(bool)), this, SLOT(checkBoxTriggered(bool)));
 
-    // TODO check if bool
-    //if (value.type() == QVariant::Bool)
-    //{
+        if (name.length() != 0)
+        {
+            checkBox->setObjectName(name);
+        } else {
+            QMessageBox::warning(parent, STRS::incorrectName, QtUtils::stringFormat(STRS::specifyName, STRS::checkBox));
+        }
         checkBox->setChecked(value.toBool());
-    //} else {
-    //    QMessageBox::warning(parent, QString("Incorrect value"), QString("Cannot convert value to bool. CheckBox ComponentName: " + name + "."));
-    //}
 
-    connect(checkBox, SIGNAL(toggled(bool)), this, SLOT(checkBoxTriggered(bool)));
+        spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
+        getLayout()->addWidget(checkBox);
+        getLayout()->addSpacerItem(spacer);
+        setLayout(getLayout());
+    } else
+    {
 
-    spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
-    getLayout()->addWidget(checkBox);
-    getLayout()->addSpacerItem(spacer);
-    setLayout(getLayout());
+    }
 }
 
 void ConfCheckBox::checkBoxTriggered(bool value)
@@ -44,36 +76,38 @@ QString ConfCheckBox::getName()
         return checkBox->objectName();
     } else
     {
-        return QString("DefaultCheckBox");
+        return STRS::checkBox;
     }
 }
 
-//QString ConfCheckBox::getName()
-//{
-//    if (checkBox)
-//    {
-//        return checkBox->objectName();
-//    }
-//}
+const QVariant &ConfCheckBox::getValue()
+{
+    return value;
+}
 
 ConfCheckBox::~ConfCheckBox()
 {
 }
 
 ConfLineEdit::ConfLineEdit(QWidget *parent, const QString &name, const QString &placeholderText,
-                           const QVariant &value, const QString &componentName)
-    : BaseConfComponent(componentName, parent)
+                           const QVariant &value, QString &mask, const QString &parameterName)
+    : BaseConfComponent(parameterName, parent)
 {
-    lineEdit = new QLineEdit(value.toString());
-    if (name != "")
+    lineEdit = new QLineEdit();
+    connect(lineEdit, SIGNAL(textChanged(QString)), this, SLOT(lineEditTextChanged(QString)));
+    lineEdit->setText(value.toString());
+    if (name.length() != 0)
     {
         lineEdit->setObjectName(name);
     } else {
-        QMessageBox::warning(parent, "Incorrect name", "Specify appropriate name for LineEdit component, please.");
+        QMessageBox::warning(parent, STRS::incorrectName, QtUtils::stringFormat(STRS::specifyName, STRS::lineEdit));
     }
-    connect(lineEdit, SIGNAL(textChanged(QString)), this, SLOT(lineEditTextChanged(QString)));
 
     lineEdit->setPlaceholderText(placeholderText);
+
+    QRegExpValidator* validator = new QRegExpValidator(QRegExp(mask), this);
+    lineEdit->setValidator(validator);
+
     getLayout()->addWidget(lineEdit);
     setLayout(getLayout());
 }
@@ -90,7 +124,7 @@ QString ConfLineEdit::getName()
         return lineEdit->objectName();
     } else
     {
-        return QString("DefaultLineEdit");
+        return STRS::lineEdit;
     }
 }
 
@@ -99,19 +133,20 @@ ConfLineEdit::~ConfLineEdit()
 }
 
 ConfDirBrowser::ConfDirBrowser(QWidget *parent, const QString &name, const QString &placeholderText,
-                               const QVariant &value, const QString &buttonText, const QString &componentName1)
-    : BaseConfComponent(componentName1, parent)
+                               const QVariant &value, const QString &buttonText, const QString &parameterName)
+    : BaseConfComponent(parameterName, parent)
 {
-    lineEdit = new QLineEdit(value.toString());
+    lineEdit = new QLineEdit();
+    connect(lineEdit, SIGNAL(textChanged(QString)), this, SLOT(lineEditTextChanged(QString)));
+    lineEdit->setText(value.toString());
     lineEdit->setPlaceholderText(placeholderText);
-    if (name != "")
+    if (name.length() != 0)
     {
         lineEdit->setObjectName(name);
     } else {
-        QMessageBox::warning(parent, "Incorrect name", "Specify appropriate name for ConfDirBrowser.LineEdit component, please.");
+        QMessageBox::warning(parent, STRS::incorrectName, QtUtils::stringFormat(STRS::specifyName, STRS::browserLineEdit));
     }
     pushButton = new QPushButton(buttonText);
-
     connect(pushButton, SIGNAL(clicked()), this, SLOT(pushButtonClicked()));
 
     getLayout()->addWidget(lineEdit);
@@ -122,11 +157,16 @@ ConfDirBrowser::ConfDirBrowser(QWidget *parent, const QString &name, const QStri
 void ConfDirBrowser::pushButtonClicked()
 {
     QString path;
-    if (browseFolderTrigger(path))
+    if (QtUtils::browseFolderTrigger(path))
     {
         lineEdit->setText(path);
         setValue(QVariant(path));
     }
+}
+
+void ConfDirBrowser::lineEditTextChanged(QString text)
+{
+    setValue(QVariant(text));
 }
 
 QString ConfDirBrowser::getName()
@@ -136,7 +176,7 @@ QString ConfDirBrowser::getName()
         return lineEdit->objectName();
     } else
     {
-        return QString("DefaultLineEdit");
+        return STRS::browserLineEdit;
     }
 }
 
@@ -144,15 +184,15 @@ ConfDirBrowser::~ConfDirBrowser()
 {
 }
 
-ConfLabel::ConfLabel(QWidget *parent, const QString &name, const QVariant &text, const QString &componentName)
-    : BaseConfComponent(componentName, parent)
+ConfLabel::ConfLabel(QWidget *parent, const QString &name, const QVariant &text)
+    : BaseConfComponent(name, parent)
 {
     label = new QLabel(text.toString());
     if (name != "")
     {
         label->setObjectName(name);
     } else {
-        QMessageBox::warning(parent, "Incorrect name", "Specify appropriate name for Label component, please.");
+        QMessageBox::warning(parent, STRS::incorrectName, QtUtils::stringFormat(STRS::specifyName, STRS::label));
     }
     spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
 
@@ -165,12 +205,7 @@ ConfLabel::~ConfLabel()
 {
 }
 
-QString ConfLabel::getName()
-{
-    return QString("DefaultLabel");
-}
 
-QMap<QString, int> uiConsts = { {"label", 0}, {"lineedit", 1}, {"dirbrowser", 2}, {"checkbox", 3} };
 
 ConfUiManager::ConfUiManager(QWidget *parent)
     : QWidget(parent), layout(nullptr)
@@ -189,19 +224,10 @@ void ConfUiManager::constructUi(QSettings **iniConf)
 {
     this->iniConf = iniConf;
 
+    // Delete last layout
     uiParams.clear();
     if (layout)
     {
-        /*deleteUi();
-            for (int i = 0; i < layout->count(); ++i)
-            {
-                qDebug() << i;
-                delete layout->takeAt(i);
-                //layout->removeItem();
-            }
-        delete layout;
-        layout = nullptr;*/
-
         for (auto component : uiComponents)
         {
             delete component;
@@ -211,27 +237,9 @@ void ConfUiManager::constructUi(QSettings **iniConf)
         uiComponents.clear();
     }
 
+    QtUtils::splitQSettingsKeys((*iniConf)->allKeys(), uiParams);
 
-
-    for (const QString &key : (*iniConf)->allKeys())
-    {
-        QStringList splitValue = key.split("/");
-        if (splitValue.size() <= 1)
-        {
-            continue;
-        }
-        QString name = splitValue.at(0);
-        QString param = splitValue.at(1);
-        if (uiParams.keys().indexOf(name) >= 0)
-        {
-            uiParams[name].push_back(param);
-        } else {
-            QStringList firstParam = { param };
-            uiParams[name] = firstParam;
-        }
-    }
-
-    // Construction ui
+    // Construct ui
     for (QString &key : uiParams.keys())
     {
         QMap<QString, QVariant> component;
@@ -246,82 +254,86 @@ void ConfUiManager::constructUi(QSettings **iniConf)
 
 void ConfUiManager::addComponent(QString &name, const QMap<QString, QVariant> &parameters)
 {
-    QString typeName = parameters["Type"].toString().toLower();
-    if (typeName != "")
+    QString typeName = parameters[STRS::type].toString().toLower();
+    if (typeName == "")
     {
-        switch (uiConsts[typeName])
-        {
-            case 0:
-            {
-                BaseConfComponent *label = new ConfLabel(parentWidget(), name, parameters["Text"], parameters["ParameterName"].toString());
-                uiComponents.push_back(label);
-
-                break;
-            }
-            case 1:
-            {
-                BaseConfComponent *lineEdit = new ConfLineEdit(parentWidget(), name, parameters["PlaceholderText"].toString(), parameters["Value"], parameters["ParameterName"].toString());
-                uiComponents.push_back(lineEdit);
-
-                break;
-            }
-            case 2:
-            {
-                BaseConfComponent *dirBrowser = new ConfDirBrowser(parentWidget(), name, parameters["PlaceholderText"].toString(), parameters["Value"], parameters["ButtonText"].toString(), parameters["ParameterName"].toString());
-                uiComponents.push_back(dirBrowser);
-                break;
-            }
-            case 3:
-            {
-                BaseConfComponent *checkBox = new ConfCheckBox(parentWidget(), name, parameters["Text"].toString(), parameters["Value"], parameters["ParameterName"].toString());
-                uiComponents.push_back(checkBox);
-                break;
-            }
-            default:
-            {
-                QMessageBox::warning(this, "Component not found", "Component " + typeName + " not found.");
-                break;
-            }
-        }
+        return;
     }
 
-}
-// TODO realize method
-void ConfUiManager::deleteComponent(const QString &componentName)
-{
+    const QMap<QString, int> uiConsts = { {"label",       BaseConfComponent::BASE},
+                                          {"lineedit",    BaseConfComponent::LINE_EDIT},
+                                          {"dirbrowser",  BaseConfComponent::DIR_BROWSER},
+                                          {"checkbox",    BaseConfComponent::CHECK_BOX}
+                                        };
 
+    switch (uiConsts[typeName])
+    {
+        case BaseConfComponent::BASE:
+        {
+            BaseConfComponent *label = new ConfLabel(parentWidget(), name, parameters[STRS::text]);
+            uiComponents.push_back(label);
+            break;
+        }
+        case BaseConfComponent::LINE_EDIT:
+        {
+            QString mask = parameters[STRS::mask].toString();
+            BaseConfComponent *lineEdit = new ConfLineEdit(parentWidget(), name, parameters[STRS::placeholder].toString(),
+                    parameters[STRS::value], (mask.length() == 0 ? ".+" : mask), parameters[STRS::parameterName].toString());
+            uiComponents.push_back(lineEdit);
+            break;
+        }
+        case BaseConfComponent::DIR_BROWSER:
+        {
+            BaseConfComponent *dirBrowser = new ConfDirBrowser(parentWidget(), name, parameters[STRS::placeholder].toString(),
+                    parameters[STRS::value], parameters[STRS::buttonText].toString(), parameters[STRS::parameterName].toString());
+            uiComponents.push_back(dirBrowser);
+            break;
+        }
+        case BaseConfComponent::CHECK_BOX:
+        {
+            BaseConfComponent *checkBox = new ConfCheckBox(parentWidget(), name, parameters[STRS::text].toString(), QVariant(parameters[STRS::value].toBool()),
+                    parameters[STRS::parameterName].toString());
+            uiComponents.push_back(checkBox);
+            break;
+        }
+        default:
+        {
+            QMessageBox::warning(this, STRS::componentNotFound, QtUtils::stringFormat(STRS::componentNameNotFound, typeName));
+            break;
+        }
+    }
+}
+
+void ConfUiManager::deleteComponent(const QString &name)
+{
+    Q_UNUSED(name)
+    QMessageBox::critical(this, STRS::noRealization, STRS::notNecessary);
 }
 
 void ConfUiManager::saveParameters()
 {
-    if (*iniConf != nullptr)
+    if (*iniConf == nullptr)
     {
-        for (const auto component : uiComponents)
+        // TODO Error message
+        return;
+    }
+
+    for (const auto component : uiComponents)
+    {
+        if (component->hasValue())
         {
-            if (component->hasValue())
+            QString compName = component->getName();
+            QString value = component->getValue().toString();
             {
-                QString compName = component->getName();
-                QString paramName = component->getParameterName();
-                QString value = component->getValue().toString();
-                qDebug() << "Name: " + compName;
-                qDebug() << "Value: " + value;
-                {
-                    (*iniConf)->setValue(compName + "/" + "Value", value);
-                }
+                (*iniConf)->setValue(compName + "/" + STRS::value, value);
             }
         }
     }
-}
-
-void ConfUiManager::deleteUi()
-{
-
 }
 
 QLayout *ConfUiManager::getLayout()
 {
     layout = new QVBoxLayout();
-    //uiComponents
 
     for (const auto component : uiComponents)
     {
@@ -331,23 +343,9 @@ QLayout *ConfUiManager::getLayout()
     return layout;
 }
 
-BaseConfComponent::BaseConfComponent(const QString &componentName, QWidget *parent)
+BaseConfComponent::BaseConfComponent(const QString &parameterName, QWidget *parent)
     : QWidget(parent)
 {
-    this->parameterName = componentName;
-}
-QHBoxLayout *BaseConfComponent::getLayout()
-{
-    return &layout1;
-}
-
-QString BaseConfComponent::getParameterName() const
-{
-    return parameterName;
-}
-
-void BaseConfComponent::setParameterName(const QString &value)
-{
-    parameterName = value;
+    this->parameterName = parameterName;
 }
 
