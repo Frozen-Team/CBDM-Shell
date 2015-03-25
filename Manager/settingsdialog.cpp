@@ -10,7 +10,7 @@
 #include <QMessageBox>
 #include <QMap>
 
-#include "qtutils.h"
+#include <qtutils.h>
 
 const QMap<QString, QString> AVAILABLE_ARCHS = {{"x86", "x86"}, {"x64", "x64"}}; // for reason if different values of archs
 
@@ -255,7 +255,7 @@ void SettingsDialog::on_actionExit_triggered()
 
 void SettingsDialog::on_pythonBrowse_clicked()
 {
-    if (browseFolderTrigger(pythonPath, this))
+    if (QtUtils::browseFolderTrigger(pythonPath, this))
     {
         ui->pythonPathLine->setText(pythonPath);
     }
@@ -294,7 +294,7 @@ void SettingsDialog::on_okPushButton_clicked()
 
 void SettingsDialog::on_vsBrowse_clicked()
 {
-    if (browseFolderTrigger(vsPath, this))
+    if (QtUtils::browseFolderTrigger(vsPath, this))
     {
         ui->vsPathLine->setText(vsPath);
     }
@@ -302,7 +302,7 @@ void SettingsDialog::on_vsBrowse_clicked()
 
 void SettingsDialog::on_scriptBrowse_clicked()
 {
-    if (browseFolderTrigger(scriptPath, this))
+    if (QtUtils::browseFolderTrigger(scriptPath, this))
     {
         ui->scriptPathLine->setText(scriptPath);
     }
@@ -310,7 +310,7 @@ void SettingsDialog::on_scriptBrowse_clicked()
 
 void SettingsDialog::on_outputBrowse_clicked()
 {
-    if (browseFolderTrigger(outputPath, this))
+    if (QtUtils::browseFolderTrigger(outputPath, this))
     {
         ui->outputPathLine->setText(outputPath);
     }
@@ -318,7 +318,7 @@ void SettingsDialog::on_outputBrowse_clicked()
 
 void SettingsDialog::on_buildPathBrowse_clicked()
 {
-    if (browseFolderTrigger(buildPath, this))
+    if (QtUtils::browseFolderTrigger(buildPath, this))
     {
         ui->buildPathLine->setText(buildPath);
     }

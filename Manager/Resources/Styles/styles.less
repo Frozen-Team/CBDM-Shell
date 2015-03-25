@@ -78,6 +78,16 @@ QTabBar {
     }
 }
 
+QWidget {
+    background-color: @background;
+}
+
+QScrollArea  {
+    background-color: @background;
+    .default_font();
+    border: 1px solid @input_border_color;
+}
+
 QPushButton {
     .default_font();
     border: none;
