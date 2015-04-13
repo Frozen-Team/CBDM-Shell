@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
-#include <qtutils.h>
+#include "qtutils.h"
 
 ModuleSettings::ModuleSettings(QWidget *parent) :
     QMainWindow(parent),

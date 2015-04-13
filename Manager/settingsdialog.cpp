@@ -1,7 +1,7 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 
-#include <QFile>
+#include "QFile"
 #include <QDir>
 #include <QFileInfo>
 #include <QDebug>
@@ -10,7 +10,7 @@
 #include <QMessageBox>
 #include <QMap>
 
-#include <qtutils.h>
+#include "qtutils.h"
 
 const QMap<QString, QString> AVAILABLE_ARCHS = {{"x86", "x86"}, {"x64", "x64"}}; // for reason if different values of archs
 

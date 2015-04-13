@@ -11,6 +11,11 @@
 
 namespace QtUtils
 {
+    /**
+     * @brief Formats QString with ellipse.
+     * @tparam t Parameters.
+     * @param str Format QString
+     */
     template<typename... T>
     inline const QString stringFormat(const QString& str, T... t)
     {
@@ -19,12 +24,22 @@ namespace QtUtils
         return format;
     }
 
+    /**
+     * @brief isFileExists Checks if file exists.
+     * @param path Path to file.
+     * @return true if exists, otherwise false.
+     */
     inline bool isFileExists(const QString &path)
     {
         QFile file(path);
         return file.exists();
     }
 
+    /**
+     * @brief getNameFromPath Get name of file of folder by its full path.
+     * @param path Path to object
+     * @return Name
+     */
     inline const QString getNameFromPath(const QString &path)
     {
         QFileInfo target(path);
@@ -40,7 +55,11 @@ namespace QtUtils
         }
         return QString();
     }
-
+    /**
+     * @brief splitQSettingsKeys Splits into all keys of QSettings keys.
+     * @param keys input keys.
+     * @param keysValues Split keys.
+     */
     inline void splitQSettingsKeys(const QStringList& keys, QMap<QString, QStringList>& keysValues)
     {
         for (const QString &key : keys)
@@ -61,7 +80,12 @@ namespace QtUtils
             }
         }
     }
-
+    /**
+     * @brief browseFolderTrigger Folder browser dialog implementation.
+     * @param path Path to folder.
+     * @param parent Parent object.
+     * @return true if folder specified otherwise false.
+     */
     inline bool browseFolderTrigger(QString& path, QWidget *parent = 0)
     {
         QFileDialog dialog(parent);

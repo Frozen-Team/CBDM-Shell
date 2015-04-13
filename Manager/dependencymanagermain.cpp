@@ -16,7 +16,7 @@
 
 #include <functional>
 
-#include <qtutils.h>
+#include "qtutils.h"
 #include "helpdialog.h"
 
 
