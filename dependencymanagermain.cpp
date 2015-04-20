@@ -65,6 +65,8 @@ DependencyManagerMain::DependencyManagerMain(QWidget *parent)
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
     connect(settingsDialog, SIGNAL(settingsChanged()), this, SLOT(reloadModules()));
     connect(ui->actionConfigure, SIGNAL(triggered()), this, SLOT(configureModules()));
+    connect(genProcess.get(), &GenProcess::progressUpdate, ui->progressBar, &QProgressBar::setValue);
+    connect(genProcess.get(), &GenProcess::logWrite, this, &DependencyManagerMain::writeLog);
 
     ui->availableListView->setModel(&availableListModel);
     ui->usedListView->setModel(&usedListModel);
@@ -78,6 +80,17 @@ DependencyManagerMain::DependencyManagerMain(QWidget *parent)
 DependencyManagerMain::~DependencyManagerMain()
 {
     delete ui;
+}
+
+void DependencyManagerMain::updateUi(int flag)
+{
+    switch (flag) {
+    case 0: // finished
+
+        break;
+    default:
+        break;
+    }
 }
 
 void DependencyManagerMain::on_actionStartFromScratch_triggered()
@@ -136,9 +149,17 @@ void DependencyManagerMain::reloadModules()
     }
 }
 
-void DependencyManagerMain::writeLog(QString &message)
+void DependencyManagerMain::writeLog(const QString &message)
 {
-    ui->logsBrowser->append(QDateTime::currentDateTime().toString("[HH:mm:ss] ") + message);
+    QString writeMessage = message;
+    if (writeMessage.length() > 0)
+    {
+        if (writeMessage[writeMessage.length() - 1] == '\r')
+        {
+            writeMessage[writeMessage.length() - 1] = '\0';
+        }
+        ui->logsBrowser->append(QDateTime::currentDateTime().toString("[HH:mm:ss] ") + writeMessage);
+    }
 }
 
 void DependencyManagerMain::on_actionExit_triggered()
@@ -312,16 +333,21 @@ void DependencyManagerMain::on_generateButton_clicked()
     } else
     {
         QFile outFile;
-        outFile.setFileName(settingsDialog->getScriptPath() + "/test_conf.py");
+        outFile.setFileName(settingsDialog->getScriptPath() + "/config.py");
         outFile.open(QFile::WriteOnly);
 
         if(outFile.isOpen())
         {
             // TODO build dir
             QString confStr;
-            confStr += "directories = {\n"
-                       "\t\"solutionDir\": \"" + settingsDialog->getOutputPath() + "\",\n"
-                       "\t\"visualStudioDir\": \"" + settingsDialog->getVsPath() + "\"\n"
+            confStr += "import os\n"
+                       "directories = {\n"
+                       "    \"solutionDir\": \"" + settingsDialog->getOutputPath() + "\",\n"
+                       "    \"downloadDir\": \"Download\",\n"
+                       "    \"libFolder\": \"Lib\",\n"
+                       "    \"buildDir\": \"" + settingsDialog->getBuildPath() + "\",\n"
+                       "    \"tools_path\": \"Tools\",\n"
+                       "    \"visualStudioDir\": os.path.abspath(\"" + settingsDialog->getVsPath() + "\")\n"
                        "}\n";
             confStr += "projectName = \"" + settingsDialog->getProjectName() + "\"\n";
             confStr += "cmakeVersion = \"" + settingsDialog->getCmakeVersion() + "\"\n";
@@ -330,27 +356,28 @@ void DependencyManagerMain::on_generateButton_clicked()
             confStr += "dependencies = {\n";
             for (auto &module : usedList)
             {
-                confStr += "\t\"" + module + "\": {\n";
+                confStr += "    \"" + module + "\": { \n";
                 QMap<QString, QVariant> map;
                 if (moduleSettingsDialog->getModuleValues(QString(settingsDialog->getScriptPath() + modulesPathSuffix + module), &map))
                 {
                     for (const auto &key : map.keys())
                     {
                         QVariant value = map[key];
-                        confStr += "\t\t\"" + key + "\": " + (value.type() == QVariant::Bool ? (value.toString().toLower() == "true" ?
+                        confStr += "        \"" + key + "\": " + (value.type() == QVariant::Bool ? (value.toString().toLower() == "true" ?
                                                                                                     "True" : "False") : "\"" + value.toString() + "\"") + ",\n";
                     }
                     confStr[confStr.length() - 2] = ' ';
                     confStr[confStr.length() - 1] = '\n';
 
                 }
-                confStr += "\t}\n";
+                confStr += "    },\n";
             }
             confStr += "}";
             QTextStream textStream(&outFile);
             textStream << confStr;
 
             outFile.close();
+            genProcess->runScript(settingsDialog->getPythonPath(), settingsDialog->getScriptPath());
         } else
         {
              // Show error message

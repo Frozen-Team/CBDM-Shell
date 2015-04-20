@@ -11,6 +11,7 @@
 
 #include "settingsdialog.h"
 #include "modulesettings.h"
+#include "genprocess.h"
 
 
 namespace Ui {
@@ -43,6 +44,7 @@ public:
     void setWindowPos(const QPoint& p) { move(p); }
 
 public slots:
+    void updateUi(int flag);
     /**
      * @brief showSettingsDialog Event when SettingDialog is showed.
      */
@@ -63,7 +65,7 @@ public slots:
      * @brief writeLog Event to write logs in log component.
      * @param message Log message.
      */
-    void writeLog(QString &message);
+    void writeLog(const QString &message);
 
     /**
      * @brief configureModules Event to reconfigure all modules.
@@ -173,6 +175,8 @@ private:
      * @brief ui Ui elements on the form.
      */
     Ui::DependencyManagerMain *ui;
+
+    std::unique_ptr<GenProcess> genProcess = std::make_unique<GenProcess>();
 };
 
 #endif // DEPENDENCYMANAGERMAIN_H

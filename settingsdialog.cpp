@@ -265,12 +265,12 @@ void SettingsDialog::updateSettings()
 {
     projectName = ui->projectLine->text();
     cmakeVerion = ui->cmakeLineEdit->text();
-    pythonPath = ui->pythonPathLine->text();
-    scriptPath = ui->scriptPathLine->text();
-    vsPath = ui->vsPathLine->text();
+    pythonPath = ui->pythonPathLine->text().replace("\\", "/");
+    scriptPath = ui->scriptPathLine->text().replace("\\", "/");
+    vsPath = ui->vsPathLine->text().replace("\\", "/");
     architecture = ui->archComboBox->currentText();
-    outputPath = ui->outputPathLine->text();
-    buildPath = ui->buildPathLine->text();
+    outputPath = ui->outputPathLine->text().replace("\\", "/");
+    buildPath = ui->buildPathLine->text().replace("\\", "/");
 
     settings->setValue("ProjectName", projectName);
     settings->setValue("cmakeVersion", cmakeVerion);

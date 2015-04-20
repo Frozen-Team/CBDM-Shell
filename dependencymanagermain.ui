@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>489</height>
+    <height>495</height>
    </rect>
   </property>
   <property name="font">
@@ -56,7 +56,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
@@ -79,6 +79,20 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="staticLabel_1">
+        <property name="text">
+         <string>Used modules:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="3">
+       <widget class="QTextBrowser" name="logsBrowser">
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOn</enum>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -209,21 +223,20 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="3">
-       <widget class="QTextBrowser" name="logsBrowser">
-        <property name="verticalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOn</enum>
+      <item row="4" column="0" colspan="3">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>100</number>
+        </property>
+        <property name="textVisible">
+         <bool>false</bool>
+        </property>
+        <property name="format">
+         <string/>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="staticLabel_1">
-        <property name="text">
-         <string>Used modules:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="3">
+      <item row="3" column="0">
        <widget class="QPushButton" name="generateButton">
         <property name="enabled">
          <bool>true</bool>
@@ -241,6 +254,13 @@
         </property>
         <property name="text">
          <string>Generate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QPushButton" name="cancelButton">
+        <property name="text">
+         <string>Cancel</string>
         </property>
        </widget>
       </item>
