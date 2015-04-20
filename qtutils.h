@@ -11,6 +11,7 @@
 
 namespace QtUtils
 {
+    inline const QString sepRegExp() { return QString("((\\\\)|(\\\\\\\\)|(\\/))"); }
     /**
      * @brief Formats QString with ellipse.
      * @tparam t Parameters.
@@ -55,6 +56,12 @@ namespace QtUtils
         }
         return QString();
     }
+    inline const QString getAbsPath(const QString& path)
+    {
+        QString newPath = QDir(path).canonicalPath();
+        return QDir(newPath).absolutePath();
+    }
+
     /**
      * @brief splitQSettingsKeys Splits into all keys of QSettings keys.
      * @param keys input keys.

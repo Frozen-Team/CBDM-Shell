@@ -15,8 +15,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #EXAMPLES_DIRECTORY = $${BUILD_DIRECTORY}/examples
 #EXEC_DIRECTORY = $${BUILD_DIRECTORY}
 
-contains(QMAKE_TARGET.arch, x86_64):TARGET = manager
-!contains(QMAKE_TARGET.arch, x86_64):TARGET = manager86
+contains(QMAKE_TARGET.arch, x86_64):TARGET = GRW
+!contains(QMAKE_TARGET.arch, x86_64):TARGET = GRW86
 
 TEMPLATE = app
 

@@ -53,7 +53,7 @@ SettingsDialog::~SettingsDialog()
 //};
 
 //const QVector<SettingsHelper> settingsHelpers = { {"PythonPath", "python.exe", QStringList() << "-V",
-//                                                   QRegExp("^(.*)Python[3-9][\\d]+((\\\\$)|(//$)|$)"), QStringList(), "", QRegExp("(\\d\\.\\d\\.\\d)")},
+//                                                   QRegExp("^(.*)Python[3-9][\\d]+((\\\\$)|(\\/$)|$)"), QStringList(), "", QRegExp("(\\d\\.\\d\\.\\d)")},
 //                                                  {"VSPath", "cl.exe", QStringList(), QRegExp("VC"),
 //                                                   QStringList() << "Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\bin", "", QRegExp("((\\d+).?){3}")}
 //                                                };
@@ -73,7 +73,7 @@ void SettingsDialog::loadSettings()
     } else
     {
         QMap<QString, QString> pathsMap;
-        if (findPath("python.exe", QStringList() << "-V", QRegExp("^(.*)Python[3-9][\\d]+((\\\\$)|(//$)|$)"),
+        if (findPath("python.exe", QStringList() << "-V", QRegExp("^(.*)Python[3-9][\\d]+((\\\\$)|(\\/$)|$)"),
                      QStringList(), "", QRegExp("(\\d\\.\\d\\.\\d)"), pathsMap))
         {
             pythonPath = pathsMap.keys().last();
@@ -100,7 +100,8 @@ void SettingsDialog::loadSettings()
             parsVSVer.indexIn(pathsMap[vsPath]);
             vsVersion = vsVersionMap[parsVSVer.capturedTexts().at(0).toInt()];
             ui->vsVersionLabel->setText(vsVersion);
-            ui->vsPathLine->setText(pathsMap.keys().last());
+            QString sep(QtUtils::sepRegExp());
+            ui->vsPathLine->setText(pathsMap.keys().last().remove(QRegExp(QRegExp(sep + "VC" + sep + "[Bb][Ii][Nn].+"))));
         } else {
             needToShow = true;
         }

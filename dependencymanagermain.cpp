@@ -346,8 +346,8 @@ void DependencyManagerMain::on_generateButton_clicked()
                        "    \"downloadDir\": \"Download\",\n"
                        "    \"libFolder\": \"Lib\",\n"
                        "    \"buildDir\": \"" + settingsDialog->getBuildPath() + "\",\n"
-                       "    \"tools_path\": \"Tools\",\n"
-                       "    \"visualStudioDir\": os.path.abspath(\"" + settingsDialog->getVsPath() + "\")\n"
+                       "    \"tools_path\": os.path.abspath(\"Tools\"),\n"
+                       "    \"visualStudioDir\": \"" + settingsDialog->getVsPath() + "\"\n"
                        "}\n";
             confStr += "projectName = \"" + settingsDialog->getProjectName() + "\"\n";
             confStr += "cmakeVersion = \"" + settingsDialog->getCmakeVersion() + "\"\n";
