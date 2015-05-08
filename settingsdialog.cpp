@@ -63,6 +63,27 @@ const QMap<int, QString> vsVersionMap = {
     {17, "Microsoft Visual Studio 2012"},
     {18, "Microsoft Visual Studio 2013"}};
 
+static QStringList loadListFromFile(const QString& path)
+{
+    QFile file(path);
+    if (file.open(QFile::ReadOnly))
+    {
+        QStringList list;
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            QString line = stream.readLine();
+            if (line != "")
+            {
+                list << line;
+            }
+        }
+        file.close();
+        return list;
+    }
+    return QStringList();
+}
+
 void SettingsDialog::loadSettings()
 {
     needToShow = false;
@@ -73,8 +94,9 @@ void SettingsDialog::loadSettings()
     } else
     {
         QMap<QString, QString> pathsMap;
+        QStringList pathsList = loadListFromFile("python_paths_list.txt");
         if (findPath("python.exe", QStringList() << "-V", QRegExp("^(.*)Python[3-9][\\d]+((\\\\$)|(\\/$)|$)"),
-                     QStringList(), "", QRegExp("(\\d\\.\\d\\.\\d)"), pathsMap))
+                     pathsList, "", QRegExp("(\\d\\.\\d\\.\\d)"), pathsMap))
         {
             pythonPath = pathsMap.keys().last();
             ui->pythonPathLine->setText(pathsMap.keys().last());
@@ -92,8 +114,8 @@ void SettingsDialog::loadSettings()
     } else
     {
         QMap<QString, QString> pathsMap;
-        if (findPath("cl.exe", QStringList(), QRegExp("VC"),
-                     QStringList() << "Program Files (x86)/Microsoft Visual Studio 12.0/" << "Applications/VS 2013", "", QRegExp("((\\d+).?){3}"), pathsMap))
+        QStringList pathsList = loadListFromFile("vs_paths_list.txt");
+        if (findPath("cl.exe", QStringList(), QRegExp("VC"), pathsList, "/bin", QRegExp("((\\d+).?){3}"), pathsMap))
         {
             vsPath = pathsMap.keys().last();
             QRegExp parsVSVer("\\d.");
@@ -101,7 +123,7 @@ void SettingsDialog::loadSettings()
             vsVersion = vsVersionMap[parsVSVer.capturedTexts().at(0).toInt()];
             ui->vsVersionLabel->setText(vsVersion);
             QString sep(QtUtils::sepRegExp());
-            ui->vsPathLine->setText(pathsMap.keys().last().remove(QRegExp(QRegExp(sep + "VC" + sep + "[Bb][Ii][Nn].+"))));
+            ui->vsPathLine->setText(pathsMap.keys().last().remove(QRegExp(sep + "VC" + sep + "([Bb][Ii][Nn]).*")));
         } else {
             needToShow = true;
         }
@@ -186,13 +208,13 @@ bool SettingsDialog::findPath(const QString &execName, const QStringList &params
     QStringList checkFoldersList(QStringList(checkFolderPathsList) << QString(""));
     QStringList foundPaths;
 
-    for (QString &path : paths)
-    {
-        if (path.contains(findRegExpr))
-        {
-            foundPaths << path;
-        }
-    }
+//    for (QString &path : paths)
+//    {
+//        if (path.contains(findRegExpr))
+//        {
+//            foundPaths << path;
+//        }
+//    }
 
     for (QFileInfo &info : QDir::drives())
     {
@@ -205,7 +227,7 @@ bool SettingsDialog::findPath(const QString &execName, const QStringList &params
             {
                 if (dirInfo.absoluteFilePath().contains(findRegExpr))
                 {
-                    foundPaths << dirInfo.absoluteFilePath();
+                    foundPaths << dirInfo.absoluteFilePath() + postPath;
                 }
             }
         }
@@ -218,7 +240,7 @@ bool SettingsDialog::findPath(const QString &execName, const QStringList &params
     {
         processs = new QProcess(this);
 
-        QString program(path + postPath + "/" + execName);
+        QString program(path + "/" + execName);
 
         processs->setProcessChannelMode(QProcess::MergedChannels);
         processs->start(program, params);

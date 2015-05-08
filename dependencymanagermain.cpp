@@ -21,7 +21,7 @@
 
 
 
-const QString modulesPathSuffix = "\\core\\modules\\";
+const QString modulesPathSuffix = "/core/modules/";
 
 
 DependencyManagerMain::DependencyManagerMain(QWidget *parent)
@@ -73,6 +73,9 @@ DependencyManagerMain::DependencyManagerMain(QWidget *parent)
 
     ui->availableListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->usedListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+    ui->availableListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->usedListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     reloadModules();
 }
@@ -322,6 +325,7 @@ void DependencyManagerMain::on_configureButton_clicked()
 
 void DependencyManagerMain::on_generateButton_clicked()
 {
+    ui->logsBrowser->clear();
     if (settingsDialog == nullptr)
     {
         // Show error message

@@ -58,7 +58,7 @@ Release: DESTDIR = bin
 ## debug build
 Debug: DESTDIR = bind
 
-message($${DESTDIR})
+# message($${DESTDIR})
 #!debug {
 #    # Make folders and copy styles post build
 #    # Windows
